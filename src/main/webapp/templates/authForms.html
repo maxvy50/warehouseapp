@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+<div th:fragment="authForm">
+    <form>
+
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input class="form-control" type="text" id="username" name="username"
+                   placeholder="enter your username" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input class="form-control" type="password" id="password" name="password"
+                   placeholder="enter your password" required>
+        </div>
+        <div class="btn-group btn-group-lg" style="float: right">
+            <input class="btn btn-primary" type="submit" value="Log in">
+            <input class="btn btn-default" type="reset" value="Reset"/>
+        </div>
+    </form>
+    <p>Not registered yet? Please, follow <a href="/register">this link</a>.</p>
+</div>
+
+
+
+<div th:fragment="registrationForm">
+    <form>
+        <div class="form-group">
+            <label for="username">Set a username:</label>
+            <input class="form-control" type="text" id="username" name="username"
+                   placeholder="enter your username" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="password">Set a password:</label>
+            <input class="form-control" type="password" id="password" name="password"
+                   placeholder="enter your password" required>
+        </div>
+        <div class="form-group">
+            <label for="passwordRep">Repeat the password:</label>
+            <input class="form-control" type="password" id="passwordRep" name="passwordRep"
+                   placeholder="enter your password one more time" required>
+        </div>
+        <div class="btn-group btn-group-lg" style="float: right">
+            <input class="btn btn-primary" type="submit" value="Register">
+            <input class="btn btn-default" type="reset" value="Reset"/>
+        </div>
+    </form>
+    <p>If you are registered, please, <a href="auth">log in here</a>.</p>
+</div>
+
+
+</body>
+</html>

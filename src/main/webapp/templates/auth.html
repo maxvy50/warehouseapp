@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      lang="en">
+
+<head>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap CSS  -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Bootstrap optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../css/styles.css" th:href="@{/css/styles.css?nocache=3}"/>
+
+    <meta charset="UTF-8">
+
+    <title th:text="${pageName}">YAShA</title>
+
+</head>
+
+<body>
+
+<form id="authForm" class="centered-form panel panel-default">
+    <div class="statusDiv"></div>
+    <div class="panel-body" th:include="~{authForms :: ${formToLoad}}"></div>
+</form>
+
+
+<script>
+    "use strict";
+    $("#authForm").submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            method: "POST",
+            url: window.location.pathname,
+            data: $(this).serialize(),
+            success: function (data) {
+                if (data) {
+                    $("#authForm").find("div.statusDiv").html(data);
+                } else {
+                    window.location.href = "/";
+                }
+            }
+        });
+        return false;
+    });
+</script>
+
+</body>
+
+</html>

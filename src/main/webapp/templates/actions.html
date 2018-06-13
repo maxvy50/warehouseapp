@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      lang="en">
+
+<head>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap CSS  -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Bootstrap optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../css/styles.css" th:href="@{/css/styles.css}"/>
+
+    <meta charset="UTF-8">
+
+    <title th:text="${pageName}">YAShA</title>
+
+</head>
+
+
+<body>
+
+<div id="navigationDiv" th:replace="~{fragments :: navigationBar(${pageName})}"></div>
+
+<div class="panel panel-default container-fluid">
+    <div class="panel-body row">
+        <div class="col-lg-2">
+            <label for="orgSelect">Select an organization: </label>
+            <select class="form-control" id="orgSelect" name="org" required form="actionForm" autofocus>
+                <option disabled selected value>-select-</option>
+                <option th:each="o : ${orgList}" th:value="${o}" th:text="${o}">organization</option>
+            </select>
+        </div>
+        <div class="col-lg-2">
+            <label for="actionSelect">Select an action: </label>
+            <select class="form-control" id="actionSelect" name="action" form="actionForm">
+                <option disabled selected value>-select-</option>
+                <option value="addItemDiv">Add an item</option>
+                <option value="postItemDiv">Post an item</option>
+                <option value="replaceItemDiv">Replace an item</option>
+            </select>
+        </div>
+        <div class="col-lg-6"></div>
+        <div class="col-lg-2">
+            <button class="btn btn-danger" style="float: right">Add an organization</button>
+        </div>
+    </div>
+</div>
+
+<form id="actionForm" class="centered-form panel panel-default"></form>
+
+<script>
+    $(document).ready(function () {
+        $("#actionSelect").on("change", function () {
+            $("#actionForm").load("/templates/actionForms.html #" + $("#actionSelect option:selected").val());
+        });
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#actionForm").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                method: "POST",
+                url: "actions",
+                data: $("actionForm").serialize(),
+                success: function (data) {
+                    if (data) {
+                        $("#statusDiv").html(data);
+                    }
+                }
+            });
+            return false;
+        })
+    })
+</script>
+
+</body>
+</html>

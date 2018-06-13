@@ -1,0 +1,22 @@
+CREATE TABLE users (
+	username varchar(20) NOT NULL PRIMARY KEY,
+	password varchar(32) NOT NULL
+);
+CREATE TABLE roles (
+	role_name varchar(20) NOT NULL PRIMARY KEY
+);
+CREATE TABLE users_has_roles (
+	username varchar(20) NOT NULL,
+	role_name varchar(20) NOT NULL,
+	PRIMARY KEY (username, role_name),
+	CONSTRAINT users_roles_foreign_key_1 FOREIGN KEY (username) REFERENCES users (username),
+	CONSTRAINT users_roles_foreign_key_2 FOREIGN KEY (role_name) REFERENCES roles (role_name)
+);
+INSERT INTO users (username, password) VALUES ('root', 'root');
+INSERT INTO users (username, password) VALUES ('guest', 'guest');
+INSERT INTO roles (role_name) VALUES ('admin');
+INSERT INTO roles (role_name) VALUES ('dude');
+INSERT INTO users_has_roles (username, role_name) VALUES ('root', 'dude');
+INSERT INTO users_has_roles (username, role_name) VALUES ('root', 'admin');
+INSERT INTO users_has_roles (username, role_name) VALUES ('guest', 'dude');
+COMMIT;

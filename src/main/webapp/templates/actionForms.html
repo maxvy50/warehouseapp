@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="addItemDiv" class="panel-body">
+    <div class="form-group">
+        <label for="itemName">Name of the item:</label>
+        <input class="form-control" type="text" id="itemName" name="itemName" placeholder="name" required>
+    </div>
+    <div class="form-group">
+        <label for="itemType">Type of the item:</label>
+        <input class="form-control" type="text" id="itemType" name="itemType" placeholder="type" required>
+    </div>
+    <div class="form-group">
+        <label for="itemAmount">Amount:</label>
+        <input class="form-control" type="number" min="1" id="itemAmount" name="itemAmount" placeholder="0" required>
+    </div>
+
+    <div class="btn-group btn-group-lg" style="float: right">
+        <input class="btn btn-danger" type="submit" value="Add item">
+        <input class="btn btn-default" type="reset" value="Reset"/>
+    </div>
+</div>
+</body>
+</html>

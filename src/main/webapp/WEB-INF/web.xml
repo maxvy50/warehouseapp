@@ -1,0 +1,91 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+    <display-name>Yet another shitty app</display-name>
+
+    <welcome-file-list>
+        <welcome-file>/templates/index.html</welcome-file>
+    </welcome-file-list>
+
+
+    <servlet>
+        <servlet-name>AuthServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.AuthServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthServlet</servlet-name>
+        <url-pattern>/auth</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ActionsServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.ActionsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ActionsServlet</servlet-name>
+        <url-pattern>/actions</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ReportsServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.ReportsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReportsServlet</servlet-name>
+        <url-pattern>/reports</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ProfileServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.ProfileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProfileServlet</servlet-name>
+        <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+
+
+<!--    <filter>
+        <filter-name>WhaSessionFilter</filter-name>
+        <filter-class>edu.dartit.warehouseapp.web.WhaSessionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>WhaSessionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>-->
+
+
+    <listener>
+        <listener-class>edu.dartit.warehouseapp.web.WhaListener</listener-class>
+    </listener>
+
+
+    <context-param>
+        <param-name>dbUrl</param-name>
+        <param-value>jdbc:postgresql://localhost:5432/WAREHOUSE_DB</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbUser</param-name>
+        <param-value>postgres</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbPassword</param-name>
+        <param-value>root</param-value>
+    </context-param>
+
+</web-app>
