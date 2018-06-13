@@ -27,7 +27,7 @@ public class WhaSessionFilter implements Filter {
     private boolean process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String uri = request.getRequestURI();
-        if (uri.startsWith("/css)") || uri.startsWith("/templates)")) {
+        if (uri.startsWith("/css") || uri.startsWith("/templates")) {
             return true;
         }
 
@@ -36,7 +36,7 @@ public class WhaSessionFilter implements Filter {
         if ("/auth".equals(uri) || "/register".equals(uri)) {
             if (session != null) {
                 response.sendRedirect("/");
-                return true;
+                return false;
                 // FIXME TOO
             }
         } else {
@@ -46,6 +46,7 @@ public class WhaSessionFilter implements Filter {
                 // FIXME AJAX REQUESTS
             }
         }
+
         return true;
     }
 
