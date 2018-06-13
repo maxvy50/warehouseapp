@@ -33,7 +33,7 @@ public class ActionsServlet extends HttpServlet {
         webContext.setVariable("pageName", "Actions");
         try {
             webContext.setVariable("orgList", dbManager.selectFrom("organizations", "org_name"));
-        } catch (NullPointerException | SQLException e) {
+        } catch (SQLException e) {
             throw new ServletException(e.getMessage());
         }
 

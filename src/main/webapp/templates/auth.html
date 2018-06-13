@@ -33,14 +33,18 @@
     "use strict";
     $("#authForm").submit(function (e) {
         e.preventDefault();
+        var uri = window.location.pathname;
         $.ajax({
             method: "POST",
-            url: window.location.pathname,
+            url: uri,
             data: $(this).serialize(),
             success: function (data) {
                 if (data) {
                     $("#authForm").find("div.statusDiv").html(data);
                 } else {
+                    if (uri == "/register") {
+                        window.location.href = "/auth";
+                    }
                     window.location.href = "/";
                 }
             }
