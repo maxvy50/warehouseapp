@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import static org.apache.commons.codec.digest.DigestUtils.shaHex;
 
@@ -33,8 +34,9 @@ public class AuthServlet extends HttpServlet {
                 response.setContentType("text/html");
                 response.getWriter().print("Wrong username or password!");
             } else {
-                request.getSession().setAttribute("username", username);
-                Cookie cookie = new Cookie("username", username);
+                String uuid = UUID.randomUUID().toString();
+                request.getSession().setAttribute("UUID", uuid);
+                Cookie cookie = new Cookie("UUID", uuid);
                 response.addCookie(cookie);
             }
         }

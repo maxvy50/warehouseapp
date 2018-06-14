@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSessionListener;
 import java.sql.SQLException;
 
 
-public class WhaListener implements ServletContextListener, HttpSessionListener, HttpSessionAttributeListener {
+public class WhaListener implements ServletContextListener {
 
     // Public constructor is required by servlet spec
     public WhaListener() {
@@ -31,6 +31,7 @@ public class WhaListener implements ServletContextListener, HttpSessionListener,
         /* This is to establish a connection to the database
         * */
         ServletContext servletContext = sce.getServletContext();
+
         try {
             servletContext.setAttribute("dbManager", new DbManager(servletContext));
         }
@@ -66,34 +67,4 @@ public class WhaListener implements ServletContextListener, HttpSessionListener,
         }
     }
 
-    // -------------------------------------------------------
-    // HttpSessionListener implementation
-    // -------------------------------------------------------
-    @Override
-    public void sessionCreated(HttpSessionEvent se) {
-      /* Session is created. */
-    }
-
-    @Override
-    public void sessionDestroyed(HttpSessionEvent se) {
-      /* Session is destroyed. */
-    }
-
-    // -------------------------------------------------------
-    // HttpSessionAttributeListener implementation
-    // -------------------------------------------------------
-    @Override
-    public void attributeAdded(HttpSessionBindingEvent httpSessionBindingEvent) {
-
-    }
-
-    @Override
-    public void attributeRemoved(HttpSessionBindingEvent httpSessionBindingEvent) {
-
-    }
-
-    @Override
-    public void attributeReplaced(HttpSessionBindingEvent httpSessionBindingEvent) {
-
-    }
 }

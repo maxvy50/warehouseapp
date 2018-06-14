@@ -6,6 +6,7 @@
 <head>
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../scripts/entire.js" th:src="@{/scripts/sessions.js}"></script>
     <!-- Bootstrap CSS  -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Bootstrap optional theme -->
@@ -13,7 +14,7 @@
     <!-- Bootstrap JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" media="all" href="../css/styles.css" th:href="@{/css/styles.css?nocache=3}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../css/styles.css" th:href="@{/css/styles.css}"/>
 
     <meta charset="UTF-8">
 
@@ -28,12 +29,11 @@
     <div class="panel-body" th:include="~{authForms :: ${formToLoad}}"></div>
 </form>
 
-
 <script>
-    "use strict";
     $("#authForm").submit(function (e) {
         e.preventDefault();
         var uri = window.location.pathname;
+        console.log(uri);
         $.ajax({
             method: "POST",
             url: uri,
@@ -42,16 +42,15 @@
                 if (data) {
                     $("#authForm").find("div.statusDiv").html(data);
                 } else {
-                    if (uri == "/register") {
-                        window.location.href = "/auth";
-                    }
-                    window.location.href = "/";
+                    window.location.href = (uri == "/register") ? "/auth" : "/";
                 }
             }
         });
         return false;
     });
 </script>
+
+<script src="../scripts/entire.js" th:src="@{/scripts/entire.js}"></script>
 
 </body>
 

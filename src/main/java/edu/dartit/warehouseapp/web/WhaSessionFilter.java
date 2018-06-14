@@ -27,7 +27,7 @@ public class WhaSessionFilter implements Filter {
     private boolean process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String uri = request.getRequestURI();
-        if (uri.startsWith("/css") || uri.startsWith("/templates")) {
+        if (uri.startsWith("/css") || uri.startsWith("/templates") || uri.startsWith("/scripts")) {
             return true;
         }
 
@@ -37,13 +37,18 @@ public class WhaSessionFilter implements Filter {
             if (session != null) {
                 response.sendRedirect("/");
                 return false;
-                // FIXME TOO
             }
         } else {
             if (session == null) {
-                response.sendRedirect("/auth");
+                /* the app may receive requests as well by ajax as not by ajax
+                 * fixme
+                 */
+                if (request.getHeader("isAJAX") != null) {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                } else {
+                    response.sendRedirect("/auth");
+                }
                 return false;
-                // FIXME AJAX REQUESTS
             }
         }
 

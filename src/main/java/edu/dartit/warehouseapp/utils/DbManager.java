@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class DbManager {
 
+
     private Connection connection;
 
 
