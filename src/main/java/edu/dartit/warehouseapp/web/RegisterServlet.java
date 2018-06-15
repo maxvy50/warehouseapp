@@ -1,19 +1,15 @@
 package edu.dartit.warehouseapp.web;
 
 import edu.dartit.warehouseapp.utils.DbManager;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
+import edu.dartit.warehouseapp.utils.ThymePage;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-
-import static org.apache.commons.codec.digest.DigestUtils.shaHex;
 
 /**
  * Created by vysokov-mg on 05.06.2018.
@@ -48,14 +44,8 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        ServletContext servletContext = request.getServletContext();
-        TemplateEngine templateEngine = (TemplateEngine) servletContext.getAttribute("templateEngine");
-
-        WebContext webContext = new WebContext(request, response, servletContext, request.getLocale());
-        webContext.setVariable("pageName", "Registration");
-        webContext.setVariable("formToLoad", "registrationForm");
-
-        templateEngine.process("auth", webContext, response.getWriter());
+        new ThymePage(request, response).addVariable("pageName", "Registration")
+                                        .addVariable("formToLoad", "registrationForm")
+                                        .process("auth");
     }
 }

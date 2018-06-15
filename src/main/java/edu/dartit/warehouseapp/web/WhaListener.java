@@ -19,27 +19,14 @@ import java.sql.SQLException;
 
 public class WhaListener implements ServletContextListener {
 
-    // Public constructor is required by servlet spec
     public WhaListener() {
     }
 
-    // -------------------------------------------------------
-    // ServletContextListener implementation
-    // -------------------------------------------------------
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        /* This is to establish a connection to the database
-        * */
-        ServletContext servletContext = sce.getServletContext();
-
-        try {
-            servletContext.setAttribute("dbManager", new DbManager(servletContext));
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
         /* This is to configure Thymeleaf engine
         * */
+        ServletContext servletContext = sce.getServletContext();
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setPrefix("/templates/");
@@ -53,10 +40,7 @@ public class WhaListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-      /* This method is invoked when the Servlet Context 
-         (the Web application) is undeployed or 
-         Application Server shuts down.
-      */
+
         ServletContext servletContext = sce.getServletContext();
         DbManager dbManager = (DbManager) servletContext.getAttribute("dBManager");
 

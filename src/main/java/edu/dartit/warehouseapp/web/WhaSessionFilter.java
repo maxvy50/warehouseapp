@@ -19,13 +19,16 @@ public class WhaSessionFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
-        if (process(request, response)) {
+        if (isAuthorized(request, response)) {
             chain.doFilter(req, resp);
         }
     }
 
-    private boolean process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private boolean isAuthorized(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        /* free access to this resources is required for
+         * Thymeleaf engine and jQuery on the front end
+         */
         String uri = request.getRequestURI();
         if (uri.startsWith("/css") || uri.startsWith("/templates") || uri.startsWith("/scripts")) {
             return true;
@@ -40,19 +43,20 @@ public class WhaSessionFilter implements Filter {
             }
         } else {
             if (session == null) {
-                /* the app may receive requests as well by ajax as not by ajax
-                 * fixme
-                 */
-                if (request.getHeader("isAJAX") != null) {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                } else {
-                    response.sendRedirect("/auth");
-                }
+                goAuthorize(request, response);
                 return false;
             }
         }
 
         return true;
+    }
+
+    private void goAuthorize(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getHeader("isAJAX") != null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } else {
+            response.sendRedirect("/auth");
+        }
     }
 
 

@@ -4,7 +4,7 @@
 //setting up ajax behaviour for a response with specified status
 $.ajaxSetup({
     statusCode: {
-        401: function(){
+        401/*SC_UNAUTHORIZED*/: function(){
             window.location.href = "/auth"; //redirecting unauthorized user
         }
     }

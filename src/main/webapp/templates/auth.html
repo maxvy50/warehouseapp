@@ -29,28 +29,18 @@
     <div class="panel-body" th:include="~{authForms :: ${formToLoad}}"></div>
 </form>
 
-<script>
-    $("#authForm").submit(function (e) {
-        e.preventDefault();
-        var uri = window.location.pathname;
-        console.log(uri);
-        $.ajax({
-            method: "POST",
-            url: uri,
-            data: $(this).serialize(),
-            success: function (data) {
-                if (data) {
-                    $("#authForm").find("div.statusDiv").html(data);
-                } else {
-                    window.location.href = (uri == "/register") ? "/auth" : "/";
-                }
-            }
-        });
-        return false;
-    });
-</script>
-
 <script src="../scripts/entire.js" th:src="@{/scripts/entire.js}"></script>
+
+<script>
+    ajaxPost("#authForm", {
+        203/*SC_NON_AUTHORITATIVE_INFORMATION*/: function () {
+            $("#authForm").find("div.statusDiv").html("Either incorrect username or password!");
+        },
+        200/*SC_SUCCESS*/: function () {
+            window.location.href = (window.location.pathname == "/register") ? "/auth" : "/";
+        }
+    })
+</script>
 
 </body>
 

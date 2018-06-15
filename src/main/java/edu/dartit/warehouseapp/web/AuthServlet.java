@@ -1,10 +1,7 @@
 package edu.dartit.warehouseapp.web;
 
-import edu.dartit.warehouseapp.utils.DbManager;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
+import edu.dartit.warehouseapp.utils.ThymePage;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -14,30 +11,24 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import static org.apache.commons.codec.digest.DigestUtils.shaHex;
-
 
 public class AuthServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        ServletContext servletContext = request.getServletContext();
-        DbManager dbManager = (DbManager) servletContext.getAttribute("dbManager");
-
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String authString = "SELECT username FROM users WHERE username='" + username +
-                "' AND password='" + shaHex(password) + "';";
+/*        String authString = "SELECT username FROM users WHERE username='" + username +
+                "' AND password='" + shaHex(password) + "';";*/
         try {
-            if (dbManager.executeQuery(authString).size() == 0) {
-                response.setContentType("text/html");
-                response.getWriter().print("Wrong username or password!");
-            } else {
-                String uuid = UUID.randomUUID().toString();
-                request.getSession().setAttribute("UUID", uuid);
-                Cookie cookie = new Cookie("UUID", uuid);
-                response.addCookie(cookie);
+            response.setStatus(HttpServletResponse.SC_NON_AUTHORITATIVE_INFORMATION);
+            if (userDAO.contains(username) && userDAO.isPasswordValid(password)) {
+                    String uuid = UUID.fromString(username).toString();
+                    request.getSession().setAttribute("UUID", uuid);
+                    Cookie cookie = new Cookie("UUID", uuid);
+                    response.addCookie(cookie);
+                    response.setStatus(HttpServletResponse.SC_OK);
             }
         }
         catch (SQLException e) {
@@ -49,15 +40,9 @@ public class AuthServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        ServletContext servletContext = request.getServletContext();
-        TemplateEngine templateEngine = (TemplateEngine) servletContext.getAttribute("templateEngine");
-
-        WebContext webContext = new WebContext(request, response, servletContext, request.getLocale());
-        webContext.setVariable("pageName", "Authorization");
-        webContext.setVariable("formToLoad", "authForm");
-
-        templateEngine.process("auth", webContext, response.getWriter());
+        new ThymePage(request, response).addVariable("pageName", "Authorization")
+                                        .addVariable("formToLoad", "authForm")
+                                        .process("auth");
     }
 
 }

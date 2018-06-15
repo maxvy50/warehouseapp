@@ -55,5 +55,14 @@
 <form id="actionForm" class="centered-form panel panel-default"></form>
 
 <script src="../scripts/entire.js" th:src="@{/scripts/entire.js}"></script>
+
+<script>
+    ajaxPost("#actionForm", {
+        200/*SC_SUCCESS*/: function () {
+            $("#actionForm").find("div.statusDiv").html("Successfully!");
+        }
+    })
+</script>
+
 </body>
 </html>

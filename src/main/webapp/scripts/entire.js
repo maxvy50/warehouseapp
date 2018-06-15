@@ -3,27 +3,27 @@
  */
 "use strict";
 
-//this function inserts <form> specified according to an <option> selected on the action page
+//this function inserts <form> specified with an <option> selected on the action page
 $("#actionSelect").on("change", function () {
     $("#actionForm").load("/templates/actionForms.html #" +
         $("#actionSelect").find("option:selected").val());
 });
 
-//this function submits data from the #actionForm on the action page and prints the status in the #statusDiv
-$("#actionForm").submit(function (e) {
-    e.preventDefault();
-    $.ajax({
-        method: "POST",
-        url: "/actions",
-        data: $(this).serialize(),
-        beforeSend: function (request) {
-            request.setRequestHeader("isAJAX", "yep");
-        },
-        success: function (data) {
-            if (data) {
-                $("#actionForm").find("div.statusDiv").html(data);
-            }
-        }
+//
+var ajaxPost = function(formId, behaviour) {
+    $(formId).submit(function (event) {
+        event.preventDefault();
+        var uri = window.location.pathname;
+        console.log(uri + ":" + formId);
+        $.ajax({
+            method: "POST",
+            url: uri,
+            data: $(formId).serialize(),
+            beforeSend: function (request) {
+                request.setRequestHeader("isAJAX", "yep");
+            },
+            statusCode: behaviour // DO NOT USE CODE 401 !!!11
+        });
+        return false;
     });
-    return false;
-});
+};
