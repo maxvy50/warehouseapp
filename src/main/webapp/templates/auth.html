@@ -36,6 +36,12 @@
         203/*SC_NON_AUTHORITATIVE_INFORMATION*/: function () {
             $("#authForm").find("div.statusDiv").html("Either incorrect username or password!");
         },
+        400/*SC_BAD_REQUEST*/: function () {
+            $("#authForm").find("div.statusDiv").html("Password doesn't match!");
+        },
+        409/*SC_CONFLICT*/: function () {
+            $("#authForm").find("div.statusDiv").html("Such username already exists!");
+        },
         200/*SC_SUCCESS*/: function () {
             window.location.href = (window.location.pathname == "/register") ? "/auth" : "/";
         }

@@ -14,7 +14,6 @@ public class WhaSessionFilter implements Filter {
     public void destroy() {
     }
 
-
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
 
         HttpServletRequest request = (HttpServletRequest) req;

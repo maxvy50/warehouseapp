@@ -6,10 +6,14 @@
 //this function inserts <form> specified with an <option> selected on the action page
 $("#actionSelect").on("change", function () {
     $("#actionForm").load("/templates/actionForms.html #" +
-        $("#actionSelect").find("option:selected").val());
+                            $("#actionSelect").find("option:selected").val());
 });
 
-//
+$("#addOrg").on("click", function () {
+    $("#actionForm").load("/templates/actionForms.html #addOrgForm");
+});
+
+
 var ajaxPost = function(formId, behaviour) {
     $(formId).submit(function (event) {
         event.preventDefault();
@@ -22,7 +26,7 @@ var ajaxPost = function(formId, behaviour) {
             beforeSend: function (request) {
                 request.setRequestHeader("isAJAX", "yep");
             },
-            statusCode: behaviour // DO NOT USE CODE 401 !!!11
+            statusCode: behaviour // DO NOT USE CODE 401 -- IT HANDLES SESSIONS !!!11
         });
         return false;
     });

@@ -1,15 +1,14 @@
 package edu.dartit.warehouseapp.web;
 
-import edu.dartit.warehouseapp.utils.DbManager;
+import edu.dartit.warehouseapp.utils.DAOException;
 import edu.dartit.warehouseapp.utils.ThymePage;
+import edu.dartit.warehouseapp.utils.UserDAO;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * Created by vysokov-mg on 05.06.2018.
@@ -24,28 +23,27 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("password");
         String passwordRep = request.getParameter("passwordRep");
 
-        ServletContext servletContext = request.getServletContext();
-        DbManager dbManager = (DbManager)servletContext.getAttribute("dbManager");
-        String authString = "SELECT username FROM users WHERE username='" + username + "';";
+        UserDAO userDAO = new UserDAO();
         try {
-            if (dbManager.executeQuery(authString).size() > 0) {
-                response.getWriter().print("Specified username already in use!");
+            if (userDAO.has(username)) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
             } else {
                 if (password.equals(passwordRep)) {
-
+                    userDAO.add(username, password);
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
-
             }
-        } catch (SQLException e) {
+        } catch (DAOException e) {
             throw new ServletException(e.getMessage());
         }
-
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        new ThymePage(request, response).addVariable("pageName", "Registration")
-                                        .addVariable("formToLoad", "registrationForm")
-                                        .process("auth");
+        new ThymePage(request, response)
+                .addVariable("pageName", "Registration")
+                .addVariable("formToLoad", "registrationForm")
+                .process("auth");
     }
 }
