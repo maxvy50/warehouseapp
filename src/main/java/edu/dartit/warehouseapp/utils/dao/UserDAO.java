@@ -1,4 +1,6 @@
-package edu.dartit.warehouseapp.utils;
+package edu.dartit.warehouseapp.utils.dao;
+
+import edu.dartit.warehouseapp.utils.DBConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

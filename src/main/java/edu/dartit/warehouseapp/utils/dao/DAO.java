@@ -1,4 +1,4 @@
-package edu.dartit.warehouseapp.utils;
+package edu.dartit.warehouseapp.utils.dao;
 
 import java.util.Collection;
 

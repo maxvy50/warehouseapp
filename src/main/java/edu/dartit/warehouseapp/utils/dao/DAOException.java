@@ -1,4 +1,4 @@
-package edu.dartit.warehouseapp.utils;
+package edu.dartit.warehouseapp.utils.dao;
 
 /**
  * Created by vysokov-mg on 18.06.2018.

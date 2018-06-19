@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      lang="ru">
+
+<head>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../scripts/sessions.js" th:src="@{/scripts/sessions.js}"></script>
+    <!-- Bootstrap CSS  -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Bootstrap optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../css/styles.css" th:href="@{/css/styles.css}"/>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title>Добавить ТМЦ</title>
+
+</head>
+
+
+<body>
+
+<div id="navigationDiv" th:replace="~{fragments :: navigationBar}"></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <form id="actionForm" class="panel panel-default" style="width: 90%">
+                <div class="statusDiv"></div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="itemName">Введите название ТМЦ:</label>
+                        <input class="form-control" type="text" id="itemName" name="itemName" placeholder="название" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemType">Выберите тип ТМЦ:</label>
+                        <select class="form-control" id="itemType" name="itemType" required>
+                            <option selected disabled>-тип-</option>
+                            <option th:each="t : ${itemTypes}" th:value="${t.name()}" th:text="${t}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemAmount">Количество:</label>
+                        <input class="form-control" type="number" min="1" id="itemAmount" name="itemAmount"
+                               placeholder="0"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label for="orgName">Выберите склад:</label>
+                        <select class="form-control" id="orgName" name="orgName" required>
+                            <option selected disabled>-организация-</option>
+                            <option th:each="o : ${orgsList}" th:value="${o}" th:text="${o}"></option>
+                        </select>
+                    </div>
+                    <div class="btn-group btn-group-lg" style="float: right">
+                        <input class="btn btn-danger" type="submit" value="Добавить">
+                        <input class="btn btn-default" type="reset" value="Сброс"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <table class="table-bordered" style="width: 90%; overflow: scroll">
+                <thead>
+                <tr>
+                    <th scope="col">Организация</th>
+                    <th scope="col">Название ТМЦ</th>
+                    <th scope="col">Количество</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="o : ${ohiList}">
+                    <td th:text="${o.getOrgName()}"></td>
+                    <td th:text="${o.getItemName()}"></td>
+                    <td th:text="${o.getAmount()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="../scripts/entire.js" th:src="@{/scripts/entire.js}"></script>
+
+<script>
+    ajaxPost("#actionForm", {
+        200/*SC_SUCCESS*/: function () {
+            $("#actionForm").find("div.statusDiv").html("Success");
+        }
+    })
+</script>
+
+</body>
+</html>

@@ -1,28 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title></title>
 </head>
 <body>
-<div id="addItemDiv" class="panel-body">
-    <div class="form-group">
-        <label for="itemName">Name of the item:</label>
-        <input class="form-control" type="text" id="itemName" name="itemName" placeholder="name" required>
-    </div>
-    <div class="form-group">
-        <label for="itemType">Type of the item:</label>
-        <input class="form-control" type="text" id="itemType" name="itemType" placeholder="type" required>
-    </div>
-    <div class="form-group">
-        <label for="itemAmount">Amount:</label>
-        <input class="form-control" type="number" min="1" id="itemAmount" name="itemAmount" placeholder="0" required>
-    </div>
 
-    <div class="btn-group btn-group-lg" style="float: right">
-        <input class="btn btn-danger" type="submit" value="Add item">
-        <input class="btn btn-default" type="reset" value="Reset"/>
-    </div>
+
+<div th:fragment="addOrgForm">
+    <form>
+        <div class="form-group">
+            <label for="orgName">Введите название организации:</label>
+            <input class="form-control" type="text" id="orgName" name="orgName" placeholder="название" required>
+        </div>
+        <div class="form-group">
+            <label for="orgRegion">Регион:</label>
+            <input class="form-control" type="text" id="orgRegion" name="orgRegion" placeholder="регион" required>
+        </div>
+        <div class="form-group">
+            <label for="orgAddress">Адрес:</label>
+            <input class="form-control" type="text" id="orgAddress" name="orgAddress" placeholder="адрес" required>
+        </div>
+
+        <div class="btn-group btn-group-lg" style="float: right">
+            <input class="btn btn-danger" type="submit" value="Добавить">
+            <input class="btn btn-default" type="reset" value="Сброс">
+        </div>
+    </form>
 </div>
+
+
 </body>
 </html>

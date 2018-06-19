@@ -1,6 +1,6 @@
 .centered-form{
-    position: absolute;
-    width: 60%;
+    position: relative;
+    width: 70%;
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -13,27 +13,3 @@ div.statusDiv{
     margin-top: 5px;
     margin-right: 15px;
 }
-/*
-.button-div {
-    float: right;
-    width: auto;
-}
-
-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid darkgray;
-    border-radius: 2px;
-    box-sizing: border-box;
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
-
-input[type=submit], input[type=reset], input[type=button]{
-    background-color: dodgerblue;
-    color: white;
-    border: none;
-    width: 100px;
-}
-
-*/

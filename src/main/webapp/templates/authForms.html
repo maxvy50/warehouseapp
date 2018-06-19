@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title></title>
 </head>
 <body>
@@ -9,50 +9,48 @@
 
 <div th:fragment="authForm">
     <form>
-
         <div class="form-group">
-            <label for="username">Username:</label>
+            <label for="username">Имя пользователя:</label>
             <input class="form-control" type="text" id="username" name="username"
-                   placeholder="enter your username" required autofocus>
+                   placeholder="имя пользователя" required autofocus>
         </div>
         <div class="form-group">
-            <label for="password">Password:</label>
+            <label for="password">Пароль:</label>
             <input class="form-control" type="password" id="password" name="password"
-                   placeholder="enter your password" required>
+                   placeholder="пароль" required>
         </div>
         <div class="btn-group btn-group-lg" style="float: right">
-            <input class="btn btn-primary" type="submit" value="Log in">
-            <input class="btn btn-default" type="reset" value="Reset"/>
+            <input class="btn btn-primary" type="submit" value="Войти">
+            <input class="btn btn-default" type="reset" value="Сброс"/>
         </div>
     </form>
-    <p>Not registered yet? Please, follow <a href="/register">this link</a>.</p>
+    <p>Если вы не зарегистрированы, пройдите по <a href="/register">ссылке</a>.</p>
 </div>
-
 
 
 <div th:fragment="registrationForm">
     <form>
         <div class="form-group">
-            <label for="username">Set a username:</label>
+            <label for="username">Придумайте имя пользователя:</label>
             <input class="form-control" type="text" id="username" name="username"
-                   placeholder="enter your username" required autofocus>
+                   placeholder="имя пользователя" required autofocus>
         </div>
         <div class="form-group">
-            <label for="password">Set a password:</label>
+            <label for="password">Придумайте пароль:</label>
             <input class="form-control" type="password" id="password" name="password"
-                   placeholder="set your password" required>
+                   placeholder="пароль" required>
         </div>
         <div class="form-group">
-            <label for="passwordRep">Repeat the password:</label>
+            <label for="passwordRep">Повторите пароль:</label>
             <input class="form-control" type="password" id="passwordRep" name="passwordRep"
-                   placeholder="confirm your password" required>
+                   placeholder="пароль" required>
         </div>
         <div class="btn-group btn-group-lg" style="float: right">
-            <input class="btn btn-primary" type="submit" value="Register">
-            <input class="btn btn-default" type="reset" value="Reset"/>
+            <input class="btn btn-primary" type="submit" value="Подтвердить">
+            <input class="btn btn-default" type="reset" value="Сброс"/>
         </div>
     </form>
-    <p>If you are registered, please, <a href="auth">log in here</a>.</p>
+    <p>Если вы уже зарегистрированы, пройдите по <a href="auth">ссылке</a>.</p>
 </div>
 
 

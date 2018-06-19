@@ -1,8 +1,8 @@
 package edu.dartit.warehouseapp.web;
 
-import edu.dartit.warehouseapp.utils.DAOException;
+import edu.dartit.warehouseapp.utils.dao.DAOException;
 import edu.dartit.warehouseapp.utils.ThymePage;
-import edu.dartit.warehouseapp.utils.UserDAO;
+import edu.dartit.warehouseapp.utils.dao.UserDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -42,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         new ThymePage(request, response)
-                .addVariable("pageName", "Registration")
+                .addVariable("pageName", "Регистрация")
                 .addVariable("formToLoad", "registrationForm")
                 .process("auth");
     }

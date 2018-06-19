@@ -1,6 +1,7 @@
-package edu.dartit.warehouseapp.utils;
+package edu.dartit.warehouseapp.utils.dao;
 
 import edu.dartit.warehouseapp.entities.Organization;
+import edu.dartit.warehouseapp.utils.DBConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,7 +41,7 @@ public class OrgDAO {
     public boolean add(Organization org) throws DAOException {
 
         String stmnt = "INSERT INTO organizations (org_name, address, region) " +
-                "VALUES ('" + org.getName() + "', '" + org.getRegion() + "', '" + org.getAddress() + "')";
+                "VALUES ('" + org.getName() + "', '" + org.getAddress() + "', '" + org.getRegion() + "')";
         return executeUpdate(stmnt) != 0;
     }
 

@@ -43,13 +43,4 @@ public class Organization {
     public String toString() {
         return org_name;
     }
-/*
-    private List<String> getValues() {
-        ArrayList<String> values = new ArrayList<>();
-        values.add(name);
-        values.add(region);
-        values.add(address);
-        return values;
-    }*/
-
 }

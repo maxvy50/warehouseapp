@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org/"
-      lang="en">
+      lang="ru">
 
 <head>
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="../scripts/entire.js" th:src="@{/scripts/sessions.js}"></script>
+    <script src="../scripts/sessions.js" th:src="@{/scripts/sessions.js}"></script>
     <!-- Bootstrap CSS  -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Bootstrap optional theme -->
@@ -16,9 +16,9 @@
 
     <link rel="stylesheet" type="text/css" media="all" href="../css/styles.css" th:href="@{/css/styles.css}"/>
 
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <title th:text="${pageName}">YAShA</title>
+    <title th:text="${pageName}">Авторизация</title>
 
 </head>
 
@@ -34,13 +34,13 @@
 <script>
     ajaxPost("#authForm", {
         203/*SC_NON_AUTHORITATIVE_INFORMATION*/: function () {
-            $("#authForm").find("div.statusDiv").html("Either incorrect username or password!");
+            $("#authForm").find("div.statusDiv").html("Неверное имя пользователя или пароль");
         },
         400/*SC_BAD_REQUEST*/: function () {
-            $("#authForm").find("div.statusDiv").html("Password doesn't match!");
+            $("#authForm").find("div.statusDiv").html("Пароли не совпадают!");
         },
         409/*SC_CONFLICT*/: function () {
-            $("#authForm").find("div.statusDiv").html("Such username already exists!");
+            $("#authForm").find("div.statusDiv").html("Выбранное имя пользователя уже занято");
         },
         200/*SC_SUCCESS*/: function () {
             window.location.href = (window.location.pathname == "/register") ? "/auth" : "/";

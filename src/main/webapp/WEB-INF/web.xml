@@ -31,22 +31,31 @@
 
 
     <servlet>
-        <servlet-name>ActionsServlet</servlet-name>
-        <servlet-class>edu.dartit.warehouseapp.web.ActionsServlet</servlet-class>
+        <servlet-name>AddOrgServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.AddOrgServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ActionsServlet</servlet-name>
-        <url-pattern>/actions</url-pattern>
+        <servlet-name>AddOrgServlet</servlet-name>
+        <url-pattern>/organizations-add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddItemServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.AddItemServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddItemServlet</servlet-name>
+        <url-pattern>/items-add</url-pattern>
     </servlet-mapping>
 
 
     <servlet>
-        <servlet-name>ReportsServlet</servlet-name>
-        <servlet-class>edu.dartit.warehouseapp.web.ReportsServlet</servlet-class>
+        <servlet-name>ViewOrgServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.ViewOrgServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ReportsServlet</servlet-name>
-        <url-pattern>/reports</url-pattern>
+        <servlet-name>ViewOrgServlet</servlet-name>
+        <url-pattern>/organizations</url-pattern>
     </servlet-mapping>
 
 
@@ -59,7 +68,7 @@
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>
 
-
+<!--
     <filter>
         <filter-name>WhaSessionFilter</filter-name>
         <filter-class>edu.dartit.warehouseapp.web.WhaSessionFilter</filter-class>
@@ -67,12 +76,7 @@
     <filter-mapping>
         <filter-name>WhaSessionFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-
-    <listener>
-        <listener-class>edu.dartit.warehouseapp.web.WhaListener</listener-class>
-    </listener>
+    </filter-mapping>-->
 
 
 </web-app>

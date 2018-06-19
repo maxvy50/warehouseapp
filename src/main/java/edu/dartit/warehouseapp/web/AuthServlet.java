@@ -1,8 +1,8 @@
 package edu.dartit.warehouseapp.web;
 
-import edu.dartit.warehouseapp.utils.DAOException;
+import edu.dartit.warehouseapp.utils.dao.DAOException;
 import edu.dartit.warehouseapp.utils.ThymePage;
-import edu.dartit.warehouseapp.utils.UserDAO;
+import edu.dartit.warehouseapp.utils.dao.UserDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -27,8 +27,8 @@ public class AuthServlet extends HttpServlet {
             if (userDAO.has(username, password)) {
                 String uuid = UUID.randomUUID().toString();
                 request.getSession().setAttribute("UUID", uuid);
-                Cookie cookie = new Cookie("UUID", uuid);
-                response.addCookie(cookie);
+                response.addCookie(new Cookie("UUID", uuid));
+                response.addCookie(new Cookie("User", username));
                 response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (DAOException e) {
@@ -40,7 +40,7 @@ public class AuthServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         new ThymePage(request, response)
-                .addVariable("pageName", "Authorization")
+                .addVariable("pageName", "Авторизация")
                 .addVariable("formToLoad", "authForm")
                 .process("auth");
     }

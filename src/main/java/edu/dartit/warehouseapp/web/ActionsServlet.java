@@ -1,7 +1,8 @@
 package edu.dartit.warehouseapp.web;
 
-import edu.dartit.warehouseapp.utils.DAOException;
-import edu.dartit.warehouseapp.utils.OrgDAO;
+import edu.dartit.warehouseapp.entities.Organization;
+import edu.dartit.warehouseapp.utils.dao.DAOException;
+import edu.dartit.warehouseapp.utils.dao.OrgDAO;
 import edu.dartit.warehouseapp.utils.ThymePage;
 
 import javax.servlet.ServletException;
@@ -18,19 +19,13 @@ public class ActionsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        OrgDAO orgDAO = new OrgDAO();
-        try {
-            new ThymePage(request, response)
-                    .addVariable("orgList", orgDAO.getAll())
-                    .process("actions");
-        } catch (DAOException e) {
-            throw new ServletException(e.getMessage());
-        }
+
 
     }
 }
