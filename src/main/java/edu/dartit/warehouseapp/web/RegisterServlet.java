@@ -1,5 +1,6 @@
 package edu.dartit.warehouseapp.web;
 
+import edu.dartit.warehouseapp.entities.User;
 import edu.dartit.warehouseapp.utils.dao.DAOException;
 import edu.dartit.warehouseapp.utils.ThymePage;
 import edu.dartit.warehouseapp.utils.dao.UserDAO;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static org.apache.commons.codec.digest.DigestUtils.shaHex;
 
 /**
  * Created by vysokov-mg on 05.06.2018.
@@ -20,16 +23,18 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String password = shaHex(request.getParameter("password"));
         String passwordRep = request.getParameter("passwordRep");
 
         UserDAO userDAO = new UserDAO();
+        User user = new User(username, password);
+
         try {
-            if (userDAO.has(username)) {
+            if (userDAO.has(user)) {
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
             } else {
                 if (password.equals(passwordRep)) {
-                    userDAO.add(username, password);
+                    userDAO.add(user);
                 } else {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }

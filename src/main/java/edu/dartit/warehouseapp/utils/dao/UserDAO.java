@@ -1,5 +1,6 @@
 package edu.dartit.warehouseapp.utils.dao;
 
+import edu.dartit.warehouseapp.entities.User;
 import edu.dartit.warehouseapp.utils.DBConnector;
 
 import java.sql.Connection;
@@ -7,45 +8,57 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.apache.commons.codec.digest.DigestUtils.shaHex;
 
 /**
  * Created by vysokov-mg on 15.06.2018.
  */
 public class UserDAO {
 
-    public boolean add(String username, String password) throws DAOException {
+    public boolean add(User user) throws DAOException {
+
+        String username = user.getUsername();
+        String password = user.getPassword();
 
         String stmnt = "INSERT INTO users (username, password, salt) " +
-                "VALUES ('" + username + "', '" + shaHex(password) + "', '" + "" +"');";
-                                                                 //FIXME SALT ^
+                "VALUES ('" + username + "', '" + password + "', '" + "" + "');";
+                                                         //FIXME SALT ^
         return executeUpdate(stmnt) != 0;
     }
 
-    private int executeUpdate(String stmnt) throws DAOException {
+    public boolean validate(User user) throws DAOException {
+
+        String username = user.getUsername();
+        String password = user.getPassword();
+
+        String query = "SELECT username FROM users WHERE username='" + username +
+                "' AND password='" + password + "';";
+        return executeQuery(query);
+
+    }
+
+    public boolean has(User user) throws DAOException {
+        return getByKey(user.getUsername()) != null;
+    }
+
+    public User getByKey(String username) throws DAOException {
+
+        String query = "SELECT * FROM users WHERE username='" + username + "';";
 
         try (
                 Connection conn = DBConnector.getInstance().getConnection();
-                PreparedStatement ps = conn.prepareStatement(stmnt)
+                PreparedStatement ps = conn.prepareStatement(query);
+                ResultSet rs = ps.executeQuery()
         ) {
-            return ps.executeUpdate();
+            if (rs.next()) {
+                return new User(
+                        rs.getString("username"),
+                        rs.getString("password")
+                );
+            }
+            return null;
         } catch (SQLException e) {
             throw new DAOException(e.getMessage());
         }
-    }
-
-    public boolean has(String username, String password) throws DAOException {
-
-        String query = "SELECT username FROM users WHERE username='" + username +
-                "' AND password='" + shaHex(password) + "';";
-        return executeQuery(query);
-
-    }
-
-    public boolean has(String username) throws DAOException {
-
-        String query = "SELECT username FROM users WHERE username='" + username + "';";
-        return executeQuery(query);
     }
 
     private boolean executeQuery(String query) throws DAOException {
@@ -56,6 +69,18 @@ public class UserDAO {
                 ResultSet rs = ps.executeQuery()
         ) {
             return rs.next();
+        } catch (SQLException e) {
+            throw new DAOException(e.getMessage());
+        }
+    }
+
+    private int executeUpdate(String stmnt) throws DAOException {
+
+        try (
+                Connection conn = DBConnector.getInstance().getConnection();
+                PreparedStatement ps = conn.prepareStatement(stmnt)
+        ) {
+            return ps.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException(e.getMessage());
         }

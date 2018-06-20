@@ -40,11 +40,9 @@ public class AddOrgServlet extends HttpServlet {
         OrgDAO orgDAO = new OrgDAO();
         try {
             new ThymePage(request, response)
-                    .addVariable("pageName", "Добавление организации")
-                    .addVariable("formToLoad", "addOrgForm")
-                    .addVariable("tableToLoad", "orgsTable")
+                    .addVariable("username", (String)request.getSession().getAttribute("username"))
                     .addVariable("orgList", orgDAO.getAll())
-                    .process("action");
+                    .process("addOrg");
         } catch (DAOException e) {
             throw new ServletException(e.getMessage());
         }

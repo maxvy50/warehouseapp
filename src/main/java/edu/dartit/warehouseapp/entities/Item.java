@@ -6,9 +6,9 @@ package edu.dartit.warehouseapp.entities;
 public class Item {
 
     private String name;
-    private ItemTypes type;
+    private ItemType type;
 
-    public Item(String name, ItemTypes type) {
+    public Item(String name, ItemType type) {
         this.name = name;
         this.type = type;
     }
@@ -21,11 +21,11 @@ public class Item {
         this.name = name;
     }
 
-    public ItemTypes getType() {
+    public ItemType getType() {
         return type;
     }
 
-    public void setType(ItemTypes type) {
+    public void setType(ItemType type) {
         this.type = type;
     }
 

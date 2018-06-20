@@ -12,14 +12,14 @@ item_type item_types not null );
 create type action_types as enum ('add_item', 'post_item', 'move_item', 'sell_item');
 
 create table actions (
-action_id serial not null primary key,
-action_date date not null,
-action_type action_types not null,
-supplier varchar(40) not null REFERENCES organizations (org_name),
-consumer varchar(40) not null REFERENCES organizations (org_name),
-item_name varchar(40) not null references items (item_name),
-amount smallint check (amount > 0) not null,
-actor varchar(20) not null REFERENCES users (username));
+  action_id serial not null primary key,
+  action_date date not null default current_date,
+  action_type action_types not null,
+  supplier varchar(40) REFERENCES organizations(org_name),
+  consumer varchar(40) REFERENCES organizations(org_name),
+  item_name varchar(40) not null references items (item_name),
+  amount smallint check (amount > 0) not null,
+  actor varchar(20) not null REFERENCES users (username));
 
 create table orgs_has_items (
 org_name varchar(40) not null,

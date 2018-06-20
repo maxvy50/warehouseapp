@@ -5,30 +5,35 @@ package edu.dartit.warehouseapp.entities;
  */
 public class OrgsHasItems {
 
-    private String orgName;
-    private String itemName;
+    private Organization org;
+    private Item item;
     private int amount;
 
-    public OrgsHasItems(String orgName, String itemName, int amount) {
-        this.orgName = orgName;
-        this.itemName = itemName;
+    public OrgsHasItems(Organization org, Item item, int amount) {
+        this.org = org;
+        this.item = item;
         this.amount = amount;
     }
 
-    public String getOrgName() {
-        return orgName;
+    @Override
+    public String toString() {
+        return this.item.getName() + "[x" + this.amount + "] на складе " + this.org.getName();
     }
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
+    public Organization getOrg() {
+        return org;
     }
 
-    public String getItemName() {
-        return itemName;
+    public void setOrg(Organization org) {
+        this.org = org;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     public int getAmount() {
@@ -37,10 +42,5 @@ public class OrgsHasItems {
 
     public void setAmount(int amount) {
         this.amount = amount;
-    }
-
-    @Override
-    public String toString() {
-        return this.itemName + "[x" + this.amount + "] на складе " + this.orgName;
     }
 }

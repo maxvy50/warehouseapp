@@ -22,7 +22,7 @@
 
 <body>
 
-<nav id="navigationBar" th:fragment="navigationBar" class="navbar navbar-inverse">
+<nav id="navigationBar" th:fragment="navigationBar(username)" class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
             <a href="/" class="navbar-brand"><span class="glyphicon glyphicon-object-align-bottom"></span> БЛА-БЛА</a>
@@ -44,15 +44,15 @@
                     ТМЦ <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="/items">Оприходовать</a></li>
-                    <li><a href="/items-add">Продать</a></li>
-                    <li><a href="/items-edit">Переместить</a></li>
+                    <li><a href="/items-add">Добавить</a></li>
+                    <li><a href="/items-sell">Продать</a></li>
+                    <li><a href="/items-replace">Переместить</a></li>
                 </ul>
             </li>
             <li><a href="/reports">Отчеты</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="/profile"><span class="glyphicon glyphicon-user"></span> Кабинет</a></li>
+            <li><a href="/profile" th:text=" ${username}"><span class="glyphicon glyphicon-user"></span> Кабинет</a></li>
         </ul>
     </div>
 </nav>

@@ -18,7 +18,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <title>Добавить ТМЦ</title>
+    <title>Добавить организацию</title>
 
 </head>
 
@@ -35,33 +35,20 @@
                 <div class="statusDiv"></div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label for="itemName">Введите название ТМЦ:</label>
-                        <input class="form-control" type="text" id="itemName" name="itemName" placeholder="название"
-                               required>
+                        <label for="orgName">Введите название организации:</label>
+                        <input class="form-control" type="text" id="orgName" name="orgName" placeholder="название" required>
                     </div>
                     <div class="form-group">
-                        <label for="itemType">Выберите тип ТМЦ:</label>
-                        <select class="form-control" id="itemType" name="itemType" required>
-                            <option selected disabled>-тип-</option>
-                            <option th:each="t : ${itemTypes}" th:value="${t.name()}" th:text="${t}"></option>
-                        </select>
+                        <label for="orgRegion">Регион:</label>
+                        <input class="form-control" type="text" id="orgRegion" name="orgRegion" placeholder="регион" required>
                     </div>
                     <div class="form-group">
-                        <label for="itemAmount">Количество:</label>
-                        <input class="form-control" type="number" min="1" id="itemAmount" name="itemAmount"
-                               placeholder="0"
-                               required>
-                    </div>
-                    <div class="form-group">
-                        <label for="orgName">Выберите склад:</label>
-                        <select class="form-control" id="orgName" name="orgName" required>
-                            <option selected disabled>-организация-</option>
-                            <option th:each="o : ${orgsList}" th:value="${o}" th:text="${o}"></option>
-                        </select>
+                        <label for="orgAddress">Адрес:</label>
+                        <input class="form-control" type="text" id="orgAddress" name="orgAddress" placeholder="адрес" required>
                     </div>
                     <div class="btn-group btn-group-lg" style="float: right">
                         <input class="btn btn-danger" type="submit" value="Добавить">
-                        <input class="btn btn-default" type="reset" value="Сброс"/>
+                        <input class="btn btn-default" type="reset" value="Сброс">
                     </div>
                 </div>
             </form>
@@ -70,16 +57,16 @@
             <table class="table-bordered" style="width: 90%; overflow: scroll">
                 <thead>
                 <tr>
-                    <th scope="col">Организация</th>
-                    <th scope="col">Название ТМЦ</th>
-                    <th scope="col">Количество</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Регион</th>
+                    <th scope="col">Адрес</th>
                 </tr>
                 </thead>
-                <tbody id="tableBody">
-                <tr th:each="o : ${ohiList}">
-                    <td th:text="${o.getOrg()}"></td>
-                    <td th:text="${o.getItem()}"></td>
-                    <td th:text="${o.getAmount()}"></td>
+                <tbody>
+                <tr th:each="o : ${orgsList}">
+                    <td th:text="${o.getName()}"></td>
+                    <td th:text="${o.getRegion()}"></td>
+                    <td th:text="${o.getAddress()}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -93,13 +80,13 @@
     ajaxPost("#actionForm", {
         200/*SC_SUCCESS*/: function () {
             $("#actionForm").find("div.statusDiv").html("Успех");
-            var data = $("#actionForm").serializeArray();
+            /*var data = $("#actionForm").serializeArray();
             console.log(data);
             $("#tableBody:last").append("<tr>" +
                     "<td>" + data[3].value + "</td>" +
                     "<td>" + data[0].value + "</td>" +
                     "<td>" + data[2].value + "</td>" +
-                    "</tr>")
+                    "</tr>")*/
         }
     })
 </script>

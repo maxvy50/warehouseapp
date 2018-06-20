@@ -1,8 +1,6 @@
 package edu.dartit.warehouseapp.utils.dao;
 
-import edu.dartit.warehouseapp.entities.Item;
-import edu.dartit.warehouseapp.entities.Organization;
-import edu.dartit.warehouseapp.entities.OrgsHasItems;
+import edu.dartit.warehouseapp.entities.*;
 import edu.dartit.warehouseapp.utils.DBConnector;
 
 import java.sql.Connection;
@@ -28,11 +26,12 @@ public class OrgsHasItemsDAO {
                 PreparedStatement ps = conn.prepareStatement(query);
                 ResultSet rs = ps.executeQuery()
         ) {
+            OrgDAO orgDAO = new OrgDAO();
+            ItemDAO itemDAO = new ItemDAO();
             while (rs.next()) {
-                result.add(new OrgsHasItems(
-                        rs.getString("org_name"),
-                        rs.getString("item_name"),
-                        Integer.parseInt(rs.getString("amount")))
+                Organization org = orgDAO.getByKey(rs.getString("org_name"));
+                Item item = itemDAO.getByKey(rs.getString("item_name"));
+                result.add(new OrgsHasItems(org, item, Integer.parseInt(rs.getString("amount")))
                 );
             }
             return result;
@@ -41,11 +40,34 @@ public class OrgsHasItemsDAO {
         }
     }
 
-    public boolean add(OrgsHasItems ohi) throws DAOException {
+    public boolean add(OrgsHasItems ohi, User sign) throws DAOException {
+
+        Item item = ohi.getItem();
+        String orgName = ohi.getOrg().getName();
+        String itemName = item.getName();
+        int amount = ohi.getAmount();
+
+        ItemDAO itemDAO = new ItemDAO();
+        if (!itemDAO.has(item)) {
+            itemDAO.add(item);
+        }
 
         String stmnt = "INSERT INTO orgs_has_items (org_name, item_name, amount) " +
-                "VALUES ('" + ohi.getOrgName() + "', '" + ohi.getItemName() + "', '" + ohi.getAmount() + "')";
-        return executeUpdate(stmnt) != 0;
+                "VALUES ('" + orgName + "', '" + itemName + "', " + amount + ") " +
+                "ON CONFLICT (org_name, item_name) DO UPDATE SET amount = orgs_has_items.amount + " + amount + ";";
+        boolean result = executeUpdate(stmnt) != 0;
+
+        Action action = new Action()
+                .setType(ActionType.add_item)
+                .setUser(sign)
+                .setConsumer(ohi.getOrg())
+                .setItem(item)
+                .setAmount(amount);
+
+        ActionDAO actionDAO = new ActionDAO();
+        actionDAO.add(action);
+
+        return result;
     }
 
     private int executeUpdate(String stmnt) throws DAOException {

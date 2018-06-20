@@ -2,18 +2,6 @@
  * Created by vysokov-mg on 14.06.2018.
  */
 "use strict";
-/*
-//this function inserts <div> specified with an <option> selected on the action page
-$("#actionSelect").on("change", function () {
-    $("#actionForm").load("/templates/actionForms.html #" +
-            $("#actionSelect").find("option:selected").val())
-});
-
-
-$("#addOrg").on("click", function () {
-    $("#actionForm").load("/templates/actionForms.html #addOrgDiv");
-});*/
-
 
 var ajaxPost = function(formId, behaviour) {
     $(formId).submit(function (event) {

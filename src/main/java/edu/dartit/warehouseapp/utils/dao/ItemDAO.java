@@ -1,7 +1,6 @@
 package edu.dartit.warehouseapp.utils.dao;
 
-import edu.dartit.warehouseapp.entities.Item;
-import edu.dartit.warehouseapp.entities.ItemTypes;
+import edu.dartit.warehouseapp.entities.*;
 import edu.dartit.warehouseapp.utils.DBConnector;
 
 import java.sql.Connection;
@@ -30,7 +29,7 @@ public class ItemDAO {
             while (rs.next()) {
                 result.add(new Item(
                         rs.getString("item_name"),
-                        ItemTypes.valueOf(rs.getString("item_type"))));
+                        ItemType.valueOf(rs.getString("item_type"))));
             }
             return result;
         } catch (SQLException e) {
@@ -38,10 +37,9 @@ public class ItemDAO {
         }
     }
 
+    public Item getByKey(String itemName) throws DAOException {
 
-    public Item getByPK(String key) throws DAOException{
-
-        String query = "SELECT * FROM items WHERE item_name='" + key + "';";
+        String query = "SELECT * FROM items WHERE item_name='" + itemName + "';";
 
         try (
                 Connection conn = DBConnector.getInstance().getConnection();
@@ -51,7 +49,8 @@ public class ItemDAO {
             if (rs.next()) {
                 return new Item(
                         rs.getString("item_name"),
-                        ItemTypes.valueOf(rs.getString("item_type")));
+                        ItemType.valueOf(rs.getString("item_type"))
+                );
             }
             return null;
         } catch (SQLException e) {
@@ -59,10 +58,15 @@ public class ItemDAO {
         }
     }
 
+    public boolean has(Item item) throws DAOException {
+        return getByKey(item.getName()) != null;
+    }
+
     public boolean add(Item item) throws DAOException {
 
         String stmnt = "INSERT INTO items (item_name, item_type) " +
                 "VALUES ('" + item.getName() + "', '" + item.getType().name() + "')";
+
         return executeUpdate(stmnt) != 0;
     }
 

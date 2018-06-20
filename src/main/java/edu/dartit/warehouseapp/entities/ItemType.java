@@ -3,16 +3,16 @@ package edu.dartit.warehouseapp.entities;
 /**
  * Created by vysokov-mg on 19.06.2018.
  */
-public enum ItemTypes {
+public enum ItemType {
 
-    materials("Материалы"), parts("ЗиП"),
+    materials("Материалы"), parts("ЗИП"),
     semifinished("Полуфабрикаты"), goods("Товары"),
     fuels("ГСМ"), waste("Отходы"),
     tare("Тара"), equipment("Снаряжение");
 
     private final String s;
 
-    private ItemTypes(String s) {
+    private ItemType(String s) {
         this.s = s;
     }
 

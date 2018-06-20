@@ -1,5 +1,6 @@
 package edu.dartit.warehouseapp.web;
 
+import edu.dartit.warehouseapp.entities.User;
 import edu.dartit.warehouseapp.utils.dao.DAOException;
 import edu.dartit.warehouseapp.utils.ThymePage;
 import edu.dartit.warehouseapp.utils.dao.UserDAO;
@@ -12,23 +13,29 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 
+import static org.apache.commons.codec.digest.DigestUtils.shaHex;
+
 
 public class AuthServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
+        User user = new User(
+                request.getParameter("username"),
+                shaHex(request.getParameter("password"))
+        );
         UserDAO userDAO = new UserDAO();
+
+
         try {
             response.setStatus(HttpServletResponse.SC_NON_AUTHORITATIVE_INFORMATION);
-            if (userDAO.has(username, password)) {
+            if (userDAO.validate(user)) {
                 String uuid = UUID.randomUUID().toString();
                 request.getSession().setAttribute("UUID", uuid);
+                request.getSession().setAttribute("username", user.getUsername());
                 response.addCookie(new Cookie("UUID", uuid));
-                response.addCookie(new Cookie("User", username));
+                response.addCookie(new Cookie("username", user.getUsername()));
                 response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (DAOException e) {

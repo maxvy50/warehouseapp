@@ -38,6 +38,28 @@ public class OrgDAO {
         }
     }
 
+    public Organization getByKey(String orgName) throws DAOException {
+
+        String query = "SELECT * FROM organizations WHERE org_name='" + orgName + "';";
+
+        try (
+                Connection conn = DBConnector.getInstance().getConnection();
+                PreparedStatement ps = conn.prepareStatement(query);
+                ResultSet rs = ps.executeQuery()
+        ) {
+            if (rs.next()) {
+                return new Organization(
+                        rs.getString("org_name"),
+                        rs.getString("region"),
+                        rs.getString("address")
+                );
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new DAOException(e.getMessage());
+        }
+    }
+
     public boolean add(Organization org) throws DAOException {
 
         String stmnt = "INSERT INTO organizations (org_name, address, region) " +
@@ -56,6 +78,5 @@ public class OrgDAO {
             throw new DAOException(e.getMessage());
         }
     }
-
 
 }

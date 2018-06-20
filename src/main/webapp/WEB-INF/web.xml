@@ -68,7 +68,6 @@
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>
 
-<!--
     <filter>
         <filter-name>WhaSessionFilter</filter-name>
         <filter-class>edu.dartit.warehouseapp.web.WhaSessionFilter</filter-class>
@@ -76,7 +75,7 @@
     <filter-mapping>
         <filter-name>WhaSessionFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
+    </filter-mapping>
 
 
 </web-app>

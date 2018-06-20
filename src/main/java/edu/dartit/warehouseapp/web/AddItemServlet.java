@@ -1,11 +1,8 @@
 package edu.dartit.warehouseapp.web;
 
-import edu.dartit.warehouseapp.entities.Item;
-import edu.dartit.warehouseapp.entities.ItemTypes;
-import edu.dartit.warehouseapp.entities.OrgsHasItems;
+import edu.dartit.warehouseapp.entities.*;
 import edu.dartit.warehouseapp.utils.ThymePage;
 import edu.dartit.warehouseapp.utils.dao.DAOException;
-import edu.dartit.warehouseapp.utils.dao.ItemDAO;
 import edu.dartit.warehouseapp.utils.dao.OrgDAO;
 import edu.dartit.warehouseapp.utils.dao.OrgsHasItemsDAO;
 
@@ -25,19 +22,23 @@ public class AddItemServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String itemName = request.getParameter("itemName");
-        ItemTypes type = ItemTypes.valueOf(request.getParameter("itemType"));
+        ItemType type = ItemType.valueOf(request.getParameter("itemType"));
         int amount = Integer.parseInt(request.getParameter("itemAmount"));
         String orgName = request.getParameter("orgName");
 
-        ItemDAO itemDAO = new ItemDAO();
+        Item item = new Item(itemName, type);
+        User user = new User(
+                (String)request.getSession(false).getAttribute("username")
+        );
+
         OrgsHasItemsDAO ohiDAO = new OrgsHasItemsDAO();
+        OrgDAO orgDAO = new OrgDAO();
+
         try {
-            if (itemDAO.getByPK(itemName) == null) {
-                itemDAO.add(new Item(itemName, type));
-            }
-            ohiDAO.add(new OrgsHasItems(orgName, itemName, amount));
-        }
-        catch (DAOException e) {
+            Organization org = orgDAO.getByKey(orgName);
+            OrgsHasItems record = new OrgsHasItems(org, item, amount);
+            ohiDAO.add(record, user);
+        } catch (DAOException e) {
             throw new ServletException(e.getMessage());
         }
     }
@@ -49,7 +50,7 @@ public class AddItemServlet extends HttpServlet {
         OrgsHasItemsDAO ohiDAO = new OrgsHasItemsDAO();
         try {
             new ThymePage(request, response)
-                    .addVariable("itemTypes", ItemTypes.values())
+                    .addVariable("itemTypes", ItemType.values())
                     .addVariable("orgsList", orgDAO.getAll())
                     .addVariable("ohiList", ohiDAO.getAll())
                     .process("addItem");
