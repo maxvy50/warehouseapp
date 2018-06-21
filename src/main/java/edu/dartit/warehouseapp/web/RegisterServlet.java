@@ -23,11 +23,11 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String username = request.getParameter("username");
-        String password = shaHex(request.getParameter("password"));
+        String password = request.getParameter("password");
         String passwordRep = request.getParameter("passwordRep");
 
         UserDAO userDAO = new UserDAO();
-        User user = new User(username, password);
+        User user = new User(username, shaHex(password));
 
         try {
             if (userDAO.has(user)) {

@@ -50,12 +50,12 @@
 
 
     <servlet>
-        <servlet-name>ViewOrgServlet</servlet-name>
-        <servlet-class>edu.dartit.warehouseapp.web.ViewOrgServlet</servlet-class>
+        <servlet-name>SellItemServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.SellItemServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ViewOrgServlet</servlet-name>
-        <url-pattern>/organizations</url-pattern>
+        <servlet-name>SellItemServlet</servlet-name>
+        <url-pattern>/items-sell</url-pattern>
     </servlet-mapping>
 
 

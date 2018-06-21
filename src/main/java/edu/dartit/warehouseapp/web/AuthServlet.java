@@ -27,15 +27,18 @@ public class AuthServlet extends HttpServlet {
         );
         UserDAO userDAO = new UserDAO();
 
-
         try {
             response.setStatus(HttpServletResponse.SC_NON_AUTHORITATIVE_INFORMATION);
             if (userDAO.validate(user)) {
+
                 String uuid = UUID.randomUUID().toString();
+
                 request.getSession().setAttribute("UUID", uuid);
                 request.getSession().setAttribute("username", user.getUsername());
+
                 response.addCookie(new Cookie("UUID", uuid));
                 response.addCookie(new Cookie("username", user.getUsername()));
+
                 response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (DAOException e) {

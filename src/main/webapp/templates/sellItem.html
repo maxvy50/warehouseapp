@@ -18,7 +18,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <title>Добавить ТМЦ</title>
+    <title>Продать ТМЦ</title>
 
 </head>
 
@@ -36,16 +36,16 @@
                 <div class="statusDiv"></div>
                 <div class="panel-body">
                     <div class="form-group">
+                        <label for="orgName">Выберите склад:</label>
+                        <select class="form-control" id="orgName" name="orgName" required>
+                            <option selected disabled>-организация-</option>
+                            <option th:each="o : ${orgsList}" th:value="${o}" th:text="${o}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="itemName">Введите название ТМЦ:</label>
                         <input class="form-control" type="text" id="itemName" name="itemName" placeholder="название"
                                required>
-                    </div>
-                    <div class="form-group">
-                        <label for="itemType">Выберите тип ТМЦ:</label>
-                        <select class="form-control" id="itemType" name="itemType" required>
-                            <option selected disabled>-тип-</option>
-                            <option th:each="t : ${itemTypes}" th:value="${t.name()}" th:text="${t}"></option>
-                        </select>
                     </div>
                     <div class="form-group">
                         <label for="itemAmount">Количество:</label>
@@ -53,15 +53,8 @@
                                placeholder="0"
                                required>
                     </div>
-                    <div class="form-group">
-                        <label for="orgName">Выберите склад:</label>
-                        <select class="form-control" id="orgName" name="orgName" required>
-                            <option selected disabled>-организация-</option>
-                            <option th:each="o : ${orgsList}" th:value="${o}" th:text="${o}"></option>
-                        </select>
-                    </div>
                     <div class="btn-group btn-group-lg" style="float: right">
-                        <input class="btn btn-danger" type="submit" value="Добавить">
+                        <input class="btn btn-danger" type="submit" value="Продать">
                         <input class="btn btn-default" type="reset" value="Сброс"/>
                     </div>
                 </div>

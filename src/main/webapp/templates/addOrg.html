@@ -62,7 +62,7 @@
                     <th scope="col">Адрес</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBody">
                 <tr th:each="o : ${orgsList}">
                     <td th:text="${o.getName()}"></td>
                     <td th:text="${o.getRegion()}"></td>
@@ -78,15 +78,9 @@
 
 <script>
     ajaxPost("#actionForm", {
-        200/*SC_SUCCESS*/: function () {
+        200/*SC_OK*/: function (data) {
             $("#actionForm").find("div.statusDiv").html("Успех");
-            /*var data = $("#actionForm").serializeArray();
-            console.log(data);
-            $("#tableBody:last").append("<tr>" +
-                    "<td>" + data[3].value + "</td>" +
-                    "<td>" + data[0].value + "</td>" +
-                    "<td>" + data[2].value + "</td>" +
-                    "</tr>")*/
+            fillTable("tableBody", prepareOrgRow, data);
         }
     })
 </script>

@@ -52,7 +52,10 @@
             <li><a href="/reports">Отчеты</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="/profile" th:text=" ${username}"><span class="glyphicon glyphicon-user"></span> Кабинет</a></li>
+            <li><a href="/profile">
+                <span class="glyphicon glyphicon-user"></span>
+                <span  th:text="${username}">Кабинет</span>
+            </a></li>
         </ul>
     </div>
 </nav>

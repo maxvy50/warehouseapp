@@ -5,18 +5,18 @@ package edu.dartit.warehouseapp.entities;
  */
 public class Organization {
 
-    private String org_name;
+    private String name;
     private String region;
     private String address;
 
     public Organization(String org_name, String region, String address) {
-        this.org_name = org_name;
+        this.name = org_name;
         this.region = region;
         this.address = address;
     }
 
     public void setName(String org_name) {
-        this.org_name = org_name;
+        this.name = org_name;
     }
 
     public void setRegion(String region) {
@@ -28,7 +28,7 @@ public class Organization {
     }
 
     public String getName() {
-        return org_name;
+        return name;
     }
 
     public String getRegion() {
@@ -41,6 +41,6 @@ public class Organization {
 
     @Override
     public String toString() {
-        return org_name;
+        return name;
     }
 }

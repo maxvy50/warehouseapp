@@ -6,11 +6,16 @@ import edu.dartit.warehouseapp.utils.DBConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by vysokov-mg on 20.06.2018.
  */
 public class ActionDAO {
+
+    public List<Action> getAll() throws DAOException {
+
+    }
 
     public boolean add(Action action) throws DAOException {
 
