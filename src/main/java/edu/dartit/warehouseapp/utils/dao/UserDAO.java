@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class UserDAO {
 
-    public boolean add(User user) throws DAOException {
+    public static boolean add(User user) throws DAOException {
 
         String username = user.getUsername();
         String password = user.getPassword();
@@ -25,22 +25,20 @@ public class UserDAO {
         return executeUpdate(stmnt) != 0;
     }
 
-    public boolean validate(User user) throws DAOException {
+    public static boolean isValid(User user) throws DAOException {
 
-        String username = user.getUsername();
-        String password = user.getPassword();
+        String query = "SELECT username FROM users WHERE username='" + user.getUsername() +
+                "' AND password='" + user.getPassword() + "';";
 
-        String query = "SELECT username FROM users WHERE username='" + username +
-                "' AND password='" + password + "';";
         return executeQuery(query);
 
     }
 
-    public boolean has(User user) throws DAOException {
+    public static boolean has(User user) throws DAOException {
         return getByKey(user.getUsername()) != null;
     }
 
-    public User getByKey(String username) throws DAOException {
+    public static User getByKey(String username) throws DAOException {
 
         String query = "SELECT * FROM users WHERE username='" + username + "';";
 
@@ -61,7 +59,7 @@ public class UserDAO {
         }
     }
 
-    private boolean executeQuery(String query) throws DAOException {
+    private static boolean executeQuery(String query) throws DAOException {
 
         try (
                 Connection conn = DBConnector.getInstance().getConnection();
@@ -74,7 +72,7 @@ public class UserDAO {
         }
     }
 
-    private int executeUpdate(String stmnt) throws DAOException {
+    private static int executeUpdate(String stmnt) throws DAOException {
 
         try (
                 Connection conn = DBConnector.getInstance().getConnection();

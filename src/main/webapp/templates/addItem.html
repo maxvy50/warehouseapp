@@ -31,7 +31,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6">
-            <h1>Продажа ТМЦ</h1>
+            <h1>Добавление ТМЦ</h1>
             <form id="actionForm" class="panel panel-default" style="width: 90%">
                 <div class="statusDiv"></div>
                 <div class="panel-body">
@@ -94,7 +94,8 @@
     ajaxPost("#actionForm", {
         200/*SC_OK*/: function (data) {
             $("#actionForm").find("div.statusDiv").html("Успех");
-            fillTable("tableBody", prepareOrgHasItemRow, data);
+            console.log(data);
+            fillTable("tableBody", data);
         }
     })
 </script>

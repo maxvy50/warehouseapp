@@ -1,4 +1,4 @@
-package edu.dartit.warehouseapp.entities;
+package edu.dartit.warehouseapp.entities.enums;
 
 /**
  * Created by vysokov-mg on 20.06.2018.

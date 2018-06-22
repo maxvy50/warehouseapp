@@ -86,8 +86,12 @@
 <script>
     ajaxPost("#actionForm", {
         200/*SC_OK*/: function (data) {
-            $("#actionForm").find("div.statusDiv").html("Успех");
+            //$("#actionForm").find("div.statusDiv").html("Успех");
+            alert("Успех");
             fillTable("tableBody", prepareOrgHasItemRow, data);
+        },
+        415/*SC_UNSUPPORTED_MEDIA_TYPE*/: function () {
+            alert("Запрашиваемое на продажу количество превышает количество товаров в наличии, или товара нет в наличии");
         }
     })
 </script>

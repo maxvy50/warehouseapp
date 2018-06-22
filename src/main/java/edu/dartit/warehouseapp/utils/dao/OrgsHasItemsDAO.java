@@ -1,6 +1,9 @@
 package edu.dartit.warehouseapp.utils.dao;
 
-import edu.dartit.warehouseapp.entities.*;
+import edu.dartit.warehouseapp.entities.Item;
+import edu.dartit.warehouseapp.entities.Organization;
+import edu.dartit.warehouseapp.entities.Record;
+import edu.dartit.warehouseapp.entities.enums.ItemType;
 import edu.dartit.warehouseapp.utils.DBConnector;
 
 import java.sql.Connection;
@@ -15,7 +18,11 @@ import java.util.List;
  */
 public class OrgsHasItemsDAO {
 
-    public OrgsHasItems getByKey(Organization org, Item item) throws DAOException {
+/*    public static OrgsHasItems getByKey(Organization org, Item item) throws DAOException {
+
+        if (org == null || item == null) {
+            return null;
+        }
 
         String query = "SELECT amount FROM orgs_has_items WHERE org_name='" + org.getName() +
                 "' AND item_name='" + item.getName() + "';";
@@ -35,7 +42,7 @@ public class OrgsHasItemsDAO {
     }
 
 
-    public List<OrgsHasItems> getAll() throws DAOException {
+    public static List<OrgsHasItems> getAll() throws DAOException {
 
         String query = "SELECT * FROM orgs_has_items";
 
@@ -58,86 +65,65 @@ public class OrgsHasItemsDAO {
         } catch (SQLException e) {
             throw new DAOException(e.getMessage());
         }
-    }
+    }*/
 
 
-    public boolean add(OrgsHasItems ohi, User sign) throws DAOException {
+    public static void add(Organization org, Item item, int amount) throws DAOException {
 
-        Item item = ohi.getItem();
-        String orgName = ohi.getOrg().getName();
-        String itemName = item.getName();
-        int amount = ohi.getAmount();
-
-        ItemDAO itemDAO = new ItemDAO();
-        if (!itemDAO.has(item)) {
-            itemDAO.add(item);
+        if (!ItemDAO.has(item)) {
+            ItemDAO.add(item);
         }
 
         String stmnt = "INSERT INTO orgs_has_items (org_name, item_name, amount) " +
-                "VALUES ('" + orgName + "', '" + itemName + "', " + amount + ") " +
+                "VALUES ('" + org.getName() + "', '" + item.getName() + "', " + amount + ") " +
                 "ON CONFLICT (org_name, item_name) DO UPDATE SET amount = orgs_has_items.amount + " + amount + ";";
-        boolean result = executeUpdate(stmnt) != 0;
 
-        if (result) {
-            Action action = new Action()
-                    .setType(ActionType.add_item)
-                    .setUser(sign)
-                    .setConsumer(ohi.getOrg())
-                    .setItem(item)
-                    .setAmount(amount);
+        if (executeUpdate(stmnt) == 0) {
+            throw new DAOException("Проблемы при добавлении ТМЦ на склад");
+        }
+    }
 
-            ActionDAO actionDAO = new ActionDAO();
-            actionDAO.add(action);
+
+    public static void pickUp(Organization org, Item item, int amount) throws DAOException {
+
+        String stmnt = "UPDATE orgs_has_items SET amount = orgs_has_items.amount - " + amount +
+                "WHERE org_name='" + org.getName() + "' AND item_name='" + item.getName() + "';";
+
+        if (executeUpdate(stmnt) == 0) {
+            throw new DAOException("Проблемы при отгрузке ТМЦ со склада");
+        }
+    }
+
+
+    public static List<Record> getItemsFor(Organization org) throws DAOException {
+
+        String query = "select items.item_name, items.item_type, orgs_has_items.amount from " +
+                "items INNER JOIN orgs_has_items on items.item_name = orgs_has_items.item_name where org_name='" + org.getName() + "';";
+
+        List<Record> result = new ArrayList<>();
+
+        try (
+                Connection conn = DBConnector.getInstance().getConnection();
+                PreparedStatement ps = conn.prepareStatement(query);
+                ResultSet rs = ps.executeQuery()
+        ) {
+            while (rs.next()) {
+                result.add(
+                        new Record()
+                                .addData(rs.getString("item_name"))
+                                .addData(ItemType.valueOf(rs.getString("item_type")))
+                                .addData(rs.getInt("amount"))
+                );
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e.getMessage());
         }
 
         return result;
     }
 
 
-    public boolean sell(OrgsHasItems ohi, User sign) throws DAOException {
-
-        Organization org = ohi.getOrg();
-        Item item = ohi.getItem();
-        int amount = ohi.getAmount();
-
-        OrgsHasItemsDAO ohiDAO = new OrgsHasItemsDAO();
-        OrgsHasItems ohiToUpdate = ohiDAO.getByKey(org, item);
-
-        if (ohiToUpdate == null || ohi.getAmount() > ohiToUpdate.getAmount()) {
-            return false;
-        }
-
-        String stmnt;
-
-        if (ohi.getAmount() == ohiToUpdate.getAmount()) {
-            stmnt = "DELETE FROM orgs_has_items " +
-                    "WHERE org_name='" + org.getName() +
-                    "' AND item_name='" + item.getName() + "';";
-        } else {
-            stmnt = "UPDATE orgs_has_items SET amount = orgs_has_items.amount - " + amount +
-                    "WHERE org_name='" + org.getName() +
-                    "' AND item_name='" + item.getName() + "';";
-        }
-
-        boolean result = executeUpdate(stmnt) != 0;
-
-        if (result) {
-            Action action = new Action()
-                    .setType(ActionType.sell_item)
-                    .setUser(sign)
-                    .setSupplier(ohi.getOrg())
-                    .setItem(item)
-                    .setAmount(amount);
-
-            ActionDAO actionDAO = new ActionDAO();
-            actionDAO.add(action);
-        }
-
-        return result;
-    }
-
-
-    private int executeUpdate(String stmnt) throws DAOException {
+    private static int executeUpdate(String stmnt) throws DAOException {
 
         try (
                 Connection conn = DBConnector.getInstance().getConnection();

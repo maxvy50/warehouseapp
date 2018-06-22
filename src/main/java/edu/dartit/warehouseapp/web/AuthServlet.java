@@ -25,14 +25,14 @@ public class AuthServlet extends HttpServlet {
                 request.getParameter("username"),
                 shaHex(request.getParameter("password"))
         );
-        UserDAO userDAO = new UserDAO();
 
         try {
             response.setStatus(HttpServletResponse.SC_NON_AUTHORITATIVE_INFORMATION);
-            if (userDAO.validate(user)) {
+            if (UserDAO.isValid(user)) {
 
                 String uuid = UUID.randomUUID().toString();
 
+                request.getSession().setMaxInactiveInterval(30 * 60);
                 request.getSession().setAttribute("UUID", uuid);
                 request.getSession().setAttribute("username", user.getUsername());
 

@@ -1,6 +1,7 @@
 package edu.dartit.warehouseapp.utils.dao;
 
 import edu.dartit.warehouseapp.entities.*;
+import edu.dartit.warehouseapp.entities.enums.ItemType;
 import edu.dartit.warehouseapp.utils.DBConnector;
 
 import java.sql.Connection;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class ItemDAO {
 
-    public List<Item> getAll() throws DAOException {
+    public static List<Item> getAll() throws DAOException {
 
         String query = "SELECT * FROM items";
 
@@ -37,7 +38,7 @@ public class ItemDAO {
         }
     }
 
-    public Item getByKey(String itemName) throws DAOException {
+    public static Item getByKey(String itemName) throws DAOException {
 
         String query = "SELECT * FROM items WHERE item_name='" + itemName + "';";
 
@@ -58,19 +59,21 @@ public class ItemDAO {
         }
     }
 
-    public boolean has(Item item) throws DAOException {
+    public static boolean has(Item item) throws DAOException {
         return getByKey(item.getName()) != null;
     }
 
-    public boolean add(Item item) throws DAOException {
+    public static void add(Item item) throws DAOException {
 
         String stmnt = "INSERT INTO items (item_name, item_type) " +
                 "VALUES ('" + item.getName() + "', '" + item.getType().name() + "')";
 
-        return executeUpdate(stmnt) != 0;
+        if (executeUpdate(stmnt) == 0) {
+            throw new DAOException("Проблемы при добавлении ТМЦ в общий реестр");
+        }
     }
 
-    private int executeUpdate(String stmnt) throws DAOException {
+    private static int executeUpdate(String stmnt) throws DAOException {
 
         try (
                 Connection conn = DBConnector.getInstance().getConnection();

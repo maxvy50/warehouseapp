@@ -18,14 +18,14 @@ create table actions (
   supplier varchar(40) REFERENCES organizations(org_name),
   consumer varchar(40) REFERENCES organizations(org_name),
   item_name varchar(40) not null references items (item_name),
-  amount smallint check (amount > 0) not null,
+  amount smallint check (amount >= 0) not null,
   actor varchar(20) not null REFERENCES users (username));
 
 create table orgs_has_items (
 org_name varchar(40) not null,
 item_name varchar(40) not null,
 primary key (org_name, item_name),
-amount smallint check (amount > 0) not null,
+amount smallint check (amount >= 0) not null,
 CONSTRAINT orgs_has_items_fk_1 FOREIGN KEY (org_name) REFERENCES organizations (org_name),
 CONSTRAINT orgs_has_items_fk_2 FOREIGN KEY (item_name) REFERENCES items (item_name));
 

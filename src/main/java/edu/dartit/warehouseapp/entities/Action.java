@@ -1,5 +1,7 @@
 package edu.dartit.warehouseapp.entities;
 
+import edu.dartit.warehouseapp.entities.enums.ActionType;
+
 import java.util.Date;
 
 /**

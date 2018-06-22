@@ -5,7 +5,7 @@ package edu.dartit.warehouseapp.entities;
  */
 public class OrgsHasItems {
 
-    private Organization org;
+/*    private Organization org;
     private Item item;
     private int amount;
 
@@ -42,5 +42,5 @@ public class OrgsHasItems {
 
     public void setAmount(int amount) {
         this.amount = amount;
-    }
+    }*/
 }

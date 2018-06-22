@@ -1,6 +1,7 @@
 package edu.dartit.warehouseapp.utils.dao;
 
-import edu.dartit.warehouseapp.entities.Organization;
+import edu.dartit.warehouseapp.entities.*;
+import edu.dartit.warehouseapp.entities.enums.ActionType;
 import edu.dartit.warehouseapp.utils.DBConnector;
 
 import java.sql.Connection;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class OrgDAO {
 
-    public List<Organization> getAll() throws DAOException {
+    public static List<Organization> getAll() throws DAOException {
 
         String query = "SELECT * FROM organizations";
 
@@ -38,7 +39,7 @@ public class OrgDAO {
         }
     }
 
-    public Organization getByKey(String orgName) throws DAOException {
+    public static Organization getByKey(String orgName) throws DAOException {
 
         String query = "SELECT * FROM organizations WHERE org_name='" + orgName + "';";
 
@@ -60,14 +61,17 @@ public class OrgDAO {
         }
     }
 
-    public boolean add(Organization org) throws DAOException {
+    public static void add(Organization org) throws DAOException {
 
         String stmnt = "INSERT INTO organizations (org_name, address, region) " +
                 "VALUES ('" + org.getName() + "', '" + org.getAddress() + "', '" + org.getRegion() + "')";
-        return executeUpdate(stmnt) != 0;
+
+        if (executeUpdate(stmnt) == 0) {
+            throw new DAOException("Проблемы при добавлении организации");
+        }
     }
 
-    private int executeUpdate(String stmnt) throws DAOException {
+    private static int executeUpdate(String stmnt) throws DAOException {
 
         try (
                 Connection conn = DBConnector.getInstance().getConnection();

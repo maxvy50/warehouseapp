@@ -1,6 +1,7 @@
 package edu.dartit.warehouseapp.utils.dao;
 
 import edu.dartit.warehouseapp.entities.*;
+import edu.dartit.warehouseapp.entities.enums.ActionType;
 import edu.dartit.warehouseapp.utils.DBConnector;
 
 import java.sql.Connection;
@@ -13,11 +14,12 @@ import java.util.List;
  */
 public class ActionDAO {
 
-    public List<Action> getAll() throws DAOException {
+    public static List<Action> getAll() throws DAOException {
 
+    return null;
     }
 
-    public boolean add(Action action) throws DAOException {
+    public static void add(Action action) throws DAOException {
 
         ActionType type = action.getType();
 
@@ -36,10 +38,12 @@ public class ActionDAO {
                 ", '" + actor.getUsername() +
                 "')";
 
-        return executeUpdate(stmnt) != 0;
+        if (executeUpdate(stmnt) == 0) {
+            throw new DAOException("Не удалось зарегистрировать действие");
+        }
     }
 
-    private int executeUpdate(String stmnt) throws DAOException {
+    private static int executeUpdate(String stmnt) throws DAOException {
 
         try (
                 Connection conn = DBConnector.getInstance().getConnection();

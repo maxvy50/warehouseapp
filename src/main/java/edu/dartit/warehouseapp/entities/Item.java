@@ -1,5 +1,7 @@
 package edu.dartit.warehouseapp.entities;
 
+import edu.dartit.warehouseapp.entities.enums.ItemType;
+
 /**
  * Created by vysokov-mg on 19.06.2018.
  */

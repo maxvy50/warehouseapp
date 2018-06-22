@@ -1,7 +1,10 @@
 package edu.dartit.warehouseapp.web;
 
 import edu.dartit.warehouseapp.entities.*;
+import edu.dartit.warehouseapp.entities.enums.ActionType;
+import edu.dartit.warehouseapp.entities.enums.ItemType;
 import edu.dartit.warehouseapp.utils.ThymePage;
+import edu.dartit.warehouseapp.utils.dao.ActionDAO;
 import edu.dartit.warehouseapp.utils.dao.DAOException;
 import edu.dartit.warehouseapp.utils.dao.OrgDAO;
 import edu.dartit.warehouseapp.utils.dao.OrgsHasItemsDAO;
@@ -32,13 +35,18 @@ public class AddItemServlet extends HttpServlet {
                 (String)request.getSession(false).getAttribute("username")
         );
 
-        OrgsHasItemsDAO ohiDAO = new OrgsHasItemsDAO();
-        OrgDAO orgDAO = new OrgDAO();
         try {
-            Organization org = orgDAO.getByKey(orgName);
-            OrgsHasItems record = new OrgsHasItems(org, item, amount);
-            ohiDAO.add(record, user);
-            sendJson(ohiDAO.getAll(), response);
+            Organization org = OrgDAO.getByKey(orgName);
+            Action action = new Action()
+                    .setUser(user)
+                    .setType(ActionType.add_item)
+                    .setConsumer(org)
+                    .setItem(item)
+                    .setAmount(amount);
+
+            org.post(item, amount);
+            ActionDAO.add(action);
+            sendJson(org.getItemJournal(), response);
         } catch (DAOException e) {
             throw new ServletException(e.getMessage());
         }
@@ -47,13 +55,10 @@ public class AddItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        OrgDAO orgDAO = new OrgDAO();
-        OrgsHasItemsDAO ohiDAO = new OrgsHasItemsDAO();
         try {
             new ThymePage(request, response)
                     .addVariable("itemTypes", ItemType.values())
-                    .addVariable("orgsList", orgDAO.getAll())
-                    .addVariable("ohiList", ohiDAO.getAll())
+                    .addVariable("orgsList", OrgDAO.getAll())
                     .addVariable("username", (String) request.getSession(false).getAttribute("username"))
                     .process("addItem");
         } catch (DAOException e) {
