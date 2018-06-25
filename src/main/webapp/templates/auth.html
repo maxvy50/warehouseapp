@@ -23,11 +23,17 @@
 </head>
 
 <body>
+<div class="row" style="margin-top: 10%">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <form id="authForm" class="panel panel-default">
+            <div class="statusDiv"></div>
+            <div class="panel-body" th:include="~{authForms :: ${formToLoad}}"></div>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>
 
-<form id="authForm" class="panel panel-default">
-    <div class="statusDiv"></div>
-    <div class="panel-body" th:include="~{authForms :: ${formToLoad}}"></div>
-</form>
 
 <script src="../scripts/entire.js" th:src="@{/scripts/entire.js}"></script>
 

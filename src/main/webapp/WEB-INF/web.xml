@@ -3,10 +3,12 @@
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
+
+
     <display-name>Yet another shitty app</display-name>
 
     <welcome-file-list>
-        <welcome-file>/templates/index.html</welcome-file>
+        <welcome-file>reports-actions</welcome-file>
     </welcome-file-list>
 
 
@@ -31,6 +33,16 @@
 
 
     <servlet>
+        <servlet-name>ActionReportServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.ActionReportServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ActionReportServlet</servlet-name>
+        <url-pattern>/reports-actions</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
         <servlet-name>AddOrgServlet</servlet-name>
         <servlet-class>edu.dartit.warehouseapp.web.AddOrgServlet</servlet-class>
     </servlet>
@@ -38,6 +50,18 @@
         <servlet-name>AddOrgServlet</servlet-name>
         <url-pattern>/organizations-add</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>EditOrgServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.EditOrgServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditOrgServlet</servlet-name>
+        <url-pattern>/organizations-edit</url-pattern>
+    </servlet-mapping>
+
+
 
     <servlet>
         <servlet-name>AddItemServlet</servlet-name>
@@ -60,6 +84,16 @@
 
 
     <servlet>
+        <servlet-name>ReplaceItemServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.ReplaceItemServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReplaceItemServlet</servlet-name>
+        <url-pattern>/items-replace</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
         <servlet-name>ProfileServlet</servlet-name>
         <servlet-class>edu.dartit.warehouseapp.web.ProfileServlet</servlet-class>
     </servlet>
@@ -67,6 +101,7 @@
         <servlet-name>ProfileServlet</servlet-name>
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>
+
 
     <filter>
         <filter-name>WhaSessionFilter</filter-name>

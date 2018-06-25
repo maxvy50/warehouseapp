@@ -62,10 +62,12 @@
         </div>
         <div class="col-md-6">
             <table class="table-bordered" style="width: 90%; overflow: scroll">
+                <h2>Склад организации</h2>
                 <thead>
                 <tr>
-                    <th scope="col">Организация</th>
+                    <th scope="col">#</th>
                     <th scope="col">Название ТМЦ</th>
+                    <th scope="col">Тип ТМЦ</th>
                     <th scope="col">Количество</th>
                 </tr>
                 </thead>
@@ -87,8 +89,9 @@
     ajaxPost("#actionForm", {
         200/*SC_OK*/: function (data) {
             //$("#actionForm").find("div.statusDiv").html("Успех");
+            console.log(data);
+            fillTable("tableBody", data);
             alert("Успех");
-            fillTable("tableBody", prepareOrgHasItemRow, data);
         },
         415/*SC_UNSUPPORTED_MEDIA_TYPE*/: function () {
             alert("Запрашиваемое на продажу количество превышает количество товаров в наличии, или товара нет в наличии");

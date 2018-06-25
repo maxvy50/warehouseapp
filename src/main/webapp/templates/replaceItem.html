@@ -18,7 +18,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <title>Добавить ТМЦ</title>
+    <title>Переместить ТМЦ</title>
 
 </head>
 
@@ -31,21 +31,28 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6">
-            <h1>Добавление ТМЦ</h1>
+            <h1>Перемещение ТМЦ</h1>
             <form id="actionForm" class="panel panel-default" style="width: 90%">
                 <div class="statusDiv"></div>
                 <div class="panel-body">
                     <div class="form-group">
+                        <label for="supplierName">Выберите организацию-отправитель:</label>
+                        <select class="form-control" id="supplierName" name="supplierName" required>
+                            <option selected disabled>-организация-</option>
+                            <option th:each="o : ${orgsList}" th:value="${o}" th:text="${o}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="consumerName">Выберите организацию-отправитель:</label>
+                        <select class="form-control" id="consumerName" name="consumerName" required>
+                            <option selected disabled>-организация-</option>
+                            <option th:each="o : ${orgsList}" th:value="${o}" th:text="${o}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="itemName">Введите название ТМЦ:</label>
                         <input class="form-control" type="text" id="itemName" name="itemName" placeholder="название"
                                required>
-                    </div>
-                    <div class="form-group">
-                        <label for="itemType">Выберите тип ТМЦ:</label>
-                        <select class="form-control" id="itemType" name="itemType" required>
-                            <option selected disabled>-тип-</option>
-                            <option th:each="t : ${itemTypes}" th:value="${t.name()}" th:text="${t}"></option>
-                        </select>
                     </div>
                     <div class="form-group">
                         <label for="itemAmount">Количество:</label>
@@ -53,15 +60,8 @@
                                placeholder="0"
                                required>
                     </div>
-                    <div class="form-group">
-                        <label for="orgName">Выберите склад:</label>
-                        <select class="form-control" id="orgName" name="orgName" required>
-                            <option selected disabled>-организация-</option>
-                            <option th:each="o : ${orgsList}" th:value="${o}" th:text="${o}"></option>
-                        </select>
-                    </div>
                     <div class="btn-group btn-group-lg" style="float: right">
-                        <input class="btn btn-danger" type="submit" value="Добавить">
+                        <input class="btn btn-danger" type="submit" value="Переместить">
                         <input class="btn btn-default" type="reset" value="Сброс"/>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
         </div>
         <div class="col-md-6">
             <table class="table-bordered" style="width: 90%; overflow: scroll">
-                <h2>Склад организации</h2>
+                <h2>Склад организации-отправителя</h2>
                 <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -99,8 +99,15 @@
             console.log(data);
             fillTable("tableBody", data);
             alert("Успех");
+        },
+        415/*SC_UNSUPPORTED_MEDIA_TYPE*/: function () {
+            alert("Запрашиваемое количество превышает количество товаров в наличии, или товара нет в наличии");
         }
-    })
+    });
+    $("#supplierName").on("change", function () {
+        var opt = $("#supplierName").find("option:selected").val();
+        $("#consumerName").find("option[value=\"" + opt + "\"]").attr("disabled", "disabled");
+    });
 </script>
 
 </body>

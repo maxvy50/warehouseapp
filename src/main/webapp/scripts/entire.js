@@ -8,7 +8,7 @@ var ajaxPost = function (formId, behaviour) {
     $(formId).submit(function (event) {
         event.preventDefault();
         var uri = window.location.pathname;
-        console.log("ajax request sent by" + formId + "@" + uri);
+        console.log("ajax request sent by " + formId + " @ " + uri);
         $.ajax({
             method: "POST",
             url: uri,
@@ -23,32 +23,61 @@ var ajaxPost = function (formId, behaviour) {
 };
 
 /*function fillTable accepts following arguments:
-* tableId -- obvious
-* prepareRow -- function to build <tr> from js-object properly
-* data -- array of structure-similar js-objects, which MUST fit prepareRow*/
-var fillTable = function (tableId, data) {
+ * tableId -- obvious
+ * prepareRow -- function to build <tr> from js-object properly
+ * data -- json*/
+var fillTable = function (tableId, data, prepareTableData) {
     var tbody = document.getElementById(tableId);
     tbody.innerHTML = "";
     var n = data.length;
+    if (prepareTableData == undefined) {
+        prepareTableData = prepareTableDataDefault;
+    }
     for (var i = 0; i < n; i++) {
-        tbody.innerHTML += prepareTableRow(data[i].content);
+        tbody.innerHTML +=
+            "<tr>" +
+                "<td>" + i + "</td>" + prepareTableData(data[i]) +
+            "</tr>";
     }
+
 }
 
-/*it builds <tr> from Record obj*/
-var prepareTableRow = function (record) {
-    var tr = "<tr>";
-    for (var i = 0; i < record.length; i++) {
-        tr += "<td>" + record[i] + "</td>";
+/*it builds <tr> from Record obj {content: []}*/
+var prepareTableDataDefault = function (record) {
+    var tr = "";
+    for (var i = 0; i < record.content.length; i++) {
+        tr += "<td>" + record.content[i] + "</td>";
     }
-    return tr + "</tr>";
+    return tr;
 }
 
-/*
+
 var prepareOrgRow = function (record) {
-    var tr = "<tr>";
+    var tr = "";
     tr += "<td>" + record.name + "</td>";
     tr += "<td>" + record.region + "</td>";
     tr += "<td>" + record.address + "</td>";
-    return tr + "</tr>";
-}*/
+    return tr;
+}
+
+
+var prepareActionRow = function (record) {
+    var tr = "";
+    tr += "<td>" + record.date + "</td>";
+    tr += "<td>" + record.type.toString() + "</td>";
+
+    if (record.supplier == undefined) {
+        tr += "<td></td>";
+    } else {
+        tr += "<td>" + record.supplier.name + "</td>";
+    }
+    if (record.consumer == undefined) {
+        tr += "<td></td>";
+    } else {
+        tr += "<td>" + record.consumer.name + "</td>";
+    }
+    tr += "<td>" + record.item.name + "</td>";
+    tr += "<td>" + record.amount + "</td>";
+    tr += "<td>" + record.user.username + "</td>";
+    return tr;
+}
