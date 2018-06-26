@@ -1,9 +1,10 @@
 package edu.dartit.warehouseapp.web;
 
-import edu.dartit.warehouseapp.entities.*;
-import edu.dartit.warehouseapp.entities.enums.ActionType;
+import edu.dartit.warehouseapp.entities.Organization;
 import edu.dartit.warehouseapp.utils.ThymePage;
-import edu.dartit.warehouseapp.dao.*;
+import edu.dartit.warehouseapp.dao.ActionDAO;
+import edu.dartit.warehouseapp.dao.DAOException;
+import edu.dartit.warehouseapp.dao.OrgDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,35 +15,19 @@ import java.io.IOException;
 import static edu.dartit.warehouseapp.utils.JsonSender.sendJson;
 
 /**
- * Created by vysokov-mg on 21.06.2018.
+ * Created by vysokov-mg on 25.06.2018.
  */
-public class SellItemServlet extends HttpServlet {
-
+public class ActionReportServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String orgName = request.getParameter("orgName");
-        String itemName = request.getParameter("itemName");
-        int amount = Integer.parseInt(request.getParameter("itemAmount"));
-        User user = new User(
-                (String) request.getSession().getAttribute("username")
-        );
 
         try {
             Organization org = OrgDAO.getByKey(orgName);
-            Item item = ItemDAO.getByKey(itemName);
-            if (item != null) {
-                Action action = new Action()
-                        .setType(ActionType.sell_item)
-                        .setUser(user)
-                        .setSupplier(org)
-                        .setItem(item)
-                        .setAmount(amount);
-
-                org.sell(item, amount);
-                ActionDAO.add(action);
-                sendJson(org.getItemJournal(), response);
+            if (org != null) {
+                sendJson(ActionDAO.getActionJournalFor(org), response);
             } else {
-                throw new DAOException("Указанного наименования нет в базе данных ни одного склада");
+                throw new DAOException("Указанная организация не зарегистрирована");
             }
         } catch (DAOException e) {
             throw new ServletException(e.getMessage());
@@ -55,7 +40,7 @@ public class SellItemServlet extends HttpServlet {
             new ThymePage(request, response)
                     .addVariable("username", (String) request.getSession().getAttribute("username"))
                     .addVariable("orgsList", OrgDAO.getAll())
-                    .process("sellItem");
+                    .process("actionReport");
         } catch (DAOException e) {
             throw new ServletException(e.getMessage());
         }

@@ -12,13 +12,11 @@ public enum ItemType {
 
     private final String s;
 
-    private ItemType(String s) {
+    ItemType(String s) {
         this.s = s;
     }
 
     public String toString() {
         return this.s;
     }
-
-
 }

@@ -1,10 +1,9 @@
 package edu.dartit.warehouseapp.entities;
 
-import edu.dartit.warehouseapp.utils.dao.DAOException;
-import edu.dartit.warehouseapp.utils.dao.OrgsHasItemsDAO;
+import edu.dartit.warehouseapp.dao.DAOException;
+import edu.dartit.warehouseapp.dao.OrgsHasItemsDAO;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by vysokov-mg on 18.06.2018.

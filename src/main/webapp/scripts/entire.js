@@ -36,11 +36,11 @@ var fillTable = function (tableId, data, prepareTableData) {
     for (var i = 0; i < n; i++) {
         tbody.innerHTML +=
             "<tr>" +
-                "<td>" + i + "</td>" + prepareTableData(data[i]) +
+            "<td>" + (i + 1) + "</td>" + prepareTableData(data[i]) +
             "</tr>";
     }
 
-}
+};
 
 /*it builds <tr> from Record obj {content: []}*/
 var prepareTableDataDefault = function (record) {
@@ -49,7 +49,7 @@ var prepareTableDataDefault = function (record) {
         tr += "<td>" + record.content[i] + "</td>";
     }
     return tr;
-}
+};
 
 
 var prepareOrgRow = function (record) {
@@ -58,26 +58,17 @@ var prepareOrgRow = function (record) {
     tr += "<td>" + record.region + "</td>";
     tr += "<td>" + record.address + "</td>";
     return tr;
-}
+};
 
 
 var prepareActionRow = function (record) {
     var tr = "";
     tr += "<td>" + record.date + "</td>";
-    tr += "<td>" + record.type.toString() + "</td>";
-
-    if (record.supplier == undefined) {
-        tr += "<td></td>";
-    } else {
-        tr += "<td>" + record.supplier.name + "</td>";
-    }
-    if (record.consumer == undefined) {
-        tr += "<td></td>";
-    } else {
-        tr += "<td>" + record.consumer.name + "</td>";
-    }
-    tr += "<td>" + record.item.name + "</td>";
+    tr += "<td>" + record.type + "</td>";
+    tr += "<td>" + record.supplier + "</td>";
+    tr += "<td>" + record.consumer + "</td>";
+    tr += "<td>" + record.item + "</td>";
     tr += "<td>" + record.amount + "</td>";
-    tr += "<td>" + record.user.username + "</td>";
+    tr += "<td>" + record.user + "</td>";
     return tr;
-}
+};

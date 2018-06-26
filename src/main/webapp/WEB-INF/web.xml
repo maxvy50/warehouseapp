@@ -103,6 +103,16 @@
     </servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>GetItemsServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.GetItemsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetItemsServlet</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
+
+
     <filter>
         <filter-name>WhaSessionFilter</filter-name>
         <filter-class>edu.dartit.warehouseapp.web.WhaSessionFilter</filter-class>

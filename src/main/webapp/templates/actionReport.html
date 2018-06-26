@@ -27,52 +27,47 @@
 
 <div id="navigationDiv" th:replace="~{fragments :: navigationBar(${username})}"></div>
 
-<div class="row" style="margin: 20px">
-    <div class="col-md-2">
-        <form id="actionForm">
-            <label for="orgName">Выберите склад:</label>
-            <select class="form-control" id="orgName" name="orgName" required>
-                <option selected disabled>-организация-</option>
-                <option th:each="o : ${orgsList}" th:value="${o}" th:text="${o}"></option>
-            </select>
-        </form>
+<div class="container-fluid panel panel-primary">
+    <div class="row" style="margin: 20px">
+        <div class="col-md-2">
+            <form id="actionForm">
+                <label for="orgName">Выберите склад:</label>
+                <select class="form-control" id="orgName" name="orgName" required>
+                    <option selected disabled>-организация-</option>
+                    <option th:each="o : ${orgsList}" th:value="${o}" th:text="${o}"></option>
+                </select>
+            </form>
+        </div>
+        <div class="col-md-10"></div>
     </div>
-    <div class="col-md-10"></div>
 </div>
 <div class="container">
-    <table class="table-bordered" style="width: 90%; overflow: scroll">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Дата</th>
-            <th scope="col">Действие</th>
-            <th scope="col">Отправитель</th>
-            <th scope="col">Получатель</th>
-            <th scope="col">Название ТМЦ</th>
-            <th scope="col">Количество</th>
-            <th scope="col">Пользователь</th>
-        </tr>
-        </thead>
-        <tbody id="tableBody">
-        </tbody>
-    </table>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3>Действия с ТМЦ</h3></div>
+        <div class="panel-body">
+            <table class="table" style="overflow: scroll">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Действие</th>
+                    <th scope="col">Отправитель</th>
+                    <th scope="col">Получатель</th>
+                    <th scope="col">Название ТМЦ</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Пользователь</th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script src="../scripts/entire.js" th:src="@{/scripts/entire.js}"></script>
+<script src="../scripts/actionReport.js" th:src="@{/scripts/actionReport.js}"></script>
 
-<script>
-    $("#orgName").on("change", function () {
-        $("#actionForm").submit();
-    });
-    ajaxPost("#actionForm", {
-        200/*SC_OK*/: function (data) {
-            //$("#actionForm").find("div.statusDiv").html("Успех");
-            console.log(data);
-            fillTable("tableBody", data, prepareActionRow);
-            alert("Успех");
-        }
-    })
-</script>
 
 </body>
 </html>

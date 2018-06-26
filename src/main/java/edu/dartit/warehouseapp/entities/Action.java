@@ -2,6 +2,7 @@ package edu.dartit.warehouseapp.entities;
 
 import edu.dartit.warehouseapp.entities.enums.ActionType;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
 public class Action {
 
     private int id;
-    private Date date;
+    private LocalDate date;
     private ActionType type;
     private Organization supplier;
     private Organization consumer;
@@ -62,7 +63,7 @@ public class Action {
         return id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -70,7 +71,7 @@ public class Action {
         return type;
     }
 
-    public Action setDate(Date date) {
+    public Action setDate(LocalDate date) {
         this.date = date;
         return this;
     }

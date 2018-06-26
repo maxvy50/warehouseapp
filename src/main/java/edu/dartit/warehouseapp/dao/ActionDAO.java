@@ -1,4 +1,4 @@
-package edu.dartit.warehouseapp.utils.dao;
+package edu.dartit.warehouseapp.dao;
 
 import edu.dartit.warehouseapp.entities.*;
 import edu.dartit.warehouseapp.entities.enums.ActionType;
@@ -6,7 +6,9 @@ import edu.dartit.warehouseapp.utils.DBConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +16,34 @@ import java.util.List;
  */
 public class ActionDAO {
 
-    public static List<Action> getAll() throws DAOException {
+    public static List<Action> getActionJournalFor(Organization org) throws DAOException {
 
-    return null;
+        String query = "SELECT * FROM actions WHERE supplier='" + org.getName() + "' OR consumer='" + org.getName() + "';";
+
+        List<Action> result = new ArrayList<>();
+
+        try (
+                Connection conn = DBConnector.getInstance().getConnection();
+                PreparedStatement ps = conn.prepareStatement(query);
+                ResultSet rs = ps.executeQuery()
+        ) {
+            while (rs.next()) {
+                result.add(new Action()
+                        .setId(rs.getInt("action_id"))
+                        .setDate(rs.getDate("action_date").toLocalDate())
+                        .setType(ActionType.valueOf(rs.getString("action_type")))
+                        .setSupplier(OrgDAO.getByKey(rs.getString("supplier")))
+                        .setConsumer(OrgDAO.getByKey(rs.getString("consumer")))
+                        .setItem(ItemDAO.getByKey(rs.getString("item_name")))
+                        .setUser(new User(rs.getString("actor")))
+                        .setAmount(rs.getInt("amount"))
+                );
+
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new DAOException(e.getMessage());
+        }
     }
 
     public static void add(Action action) throws DAOException {

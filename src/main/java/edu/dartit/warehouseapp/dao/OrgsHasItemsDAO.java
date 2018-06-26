@@ -1,4 +1,4 @@
-package edu.dartit.warehouseapp.utils.dao;
+package edu.dartit.warehouseapp.dao;
 
 import edu.dartit.warehouseapp.entities.Item;
 import edu.dartit.warehouseapp.entities.Organization;
@@ -17,56 +17,6 @@ import java.util.List;
  * Created by vysokov-mg on 19.06.2018.
  */
 public class OrgsHasItemsDAO {
-
-/*    public static OrgsHasItems getByKey(Organization org, Item item) throws DAOException {
-
-        if (org == null || item == null) {
-            return null;
-        }
-
-        String query = "SELECT amount FROM orgs_has_items WHERE org_name='" + org.getName() +
-                "' AND item_name='" + item.getName() + "';";
-
-        try (
-                Connection conn = DBConnector.getInstance().getConnection();
-                PreparedStatement ps = conn.prepareStatement(query);
-                ResultSet rs = ps.executeQuery()
-        ) {
-            if (rs.next()) {
-                return new OrgsHasItems(org, item, Integer.parseInt(rs.getString("amount")));
-            }
-            return null;
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        }
-    }
-
-
-    public static List<OrgsHasItems> getAll() throws DAOException {
-
-        String query = "SELECT * FROM orgs_has_items";
-
-        List<OrgsHasItems> result = new ArrayList<>();
-
-        try (
-                Connection conn = DBConnector.getInstance().getConnection();
-                PreparedStatement ps = conn.prepareStatement(query);
-                ResultSet rs = ps.executeQuery()
-        ) {
-            OrgDAO orgDAO = new OrgDAO();
-            ItemDAO itemDAO = new ItemDAO();
-            while (rs.next()) {
-                Organization org = orgDAO.getByKey(rs.getString("org_name"));
-                Item item = itemDAO.getByKey(rs.getString("item_name"));
-                result.add(new OrgsHasItems(org, item, Integer.parseInt(rs.getString("amount")))
-                );
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        }
-    }*/
-
 
     public static void add(Organization org, Item item, int amount) throws DAOException {
 
@@ -97,8 +47,8 @@ public class OrgsHasItemsDAO {
 
     public static List<Record> getItemsFor(Organization org) throws DAOException {
 
-        String query = "select items.item_name, items.item_type, orgs_has_items.amount from " +
-                "items INNER JOIN orgs_has_items on items.item_name = orgs_has_items.item_name where org_name='" + org.getName() + "';";
+        String query = "SELECT items.item_name, items.item_type, orgs_has_items.amount FROM " +
+                "items INNER JOIN orgs_has_items ON items.item_name = orgs_has_items.item_name WHERE org_name='" + org.getName() + "';";
 
         List<Record> result = new ArrayList<>();
 

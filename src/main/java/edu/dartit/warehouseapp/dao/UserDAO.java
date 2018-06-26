@@ -1,4 +1,4 @@
-package edu.dartit.warehouseapp.utils.dao;
+package edu.dartit.warehouseapp.dao;
 
 import edu.dartit.warehouseapp.entities.User;
 import edu.dartit.warehouseapp.utils.DBConnector;

@@ -4,10 +4,9 @@ import edu.dartit.warehouseapp.entities.*;
 import edu.dartit.warehouseapp.entities.enums.ActionType;
 import edu.dartit.warehouseapp.entities.enums.ItemType;
 import edu.dartit.warehouseapp.utils.ThymePage;
-import edu.dartit.warehouseapp.utils.dao.ActionDAO;
-import edu.dartit.warehouseapp.utils.dao.DAOException;
-import edu.dartit.warehouseapp.utils.dao.OrgDAO;
-import edu.dartit.warehouseapp.utils.dao.OrgsHasItemsDAO;
+import edu.dartit.warehouseapp.dao.ActionDAO;
+import edu.dartit.warehouseapp.dao.DAOException;
+import edu.dartit.warehouseapp.dao.OrgDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

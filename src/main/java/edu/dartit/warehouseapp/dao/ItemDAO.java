@@ -1,26 +1,24 @@
-package edu.dartit.warehouseapp.utils.dao;
+package edu.dartit.warehouseapp.dao;
 
 import edu.dartit.warehouseapp.entities.*;
-import edu.dartit.warehouseapp.entities.enums.ActionType;
+import edu.dartit.warehouseapp.entities.enums.ItemType;
 import edu.dartit.warehouseapp.utils.DBConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by vysokov-mg on 18.06.2018.
+ * Created by vysokov-mg on 19.06.2018.
  */
-public class OrgDAO {
+public class ItemDAO {
 
-    public static List<Organization> getAll() throws DAOException {
+/*    public static List<Item> getAll() throws DAOException {
 
-        String query = "SELECT * FROM organizations";
+        String query = "SELECT * FROM items";
 
-        List<Organization> result = new ArrayList<>();
+        List<Item> result = new ArrayList<>();
 
         try (
                 Connection conn = DBConnector.getInstance().getConnection();
@@ -28,20 +26,19 @@ public class OrgDAO {
                 ResultSet rs = ps.executeQuery()
         ) {
             while (rs.next()) {
-                result.add(new Organization(
-                        rs.getString("org_name"),
-                        rs.getString("region"),
-                        rs.getString("address")));
+                result.add(new Item(
+                        rs.getString("item_name"),
+                        ItemType.valueOf(rs.getString("item_type"))));
             }
             return result;
         } catch (SQLException e) {
             throw new DAOException(e.getMessage());
         }
-    }
+    }*/
 
-    public static Organization getByKey(String orgName) throws DAOException {
+    public static Item getByKey(String itemName) throws DAOException {
 
-        String query = "SELECT * FROM organizations WHERE org_name='" + orgName + "';";
+        String query = "SELECT * FROM items WHERE item_name='" + itemName + "';";
 
         try (
                 Connection conn = DBConnector.getInstance().getConnection();
@@ -49,10 +46,9 @@ public class OrgDAO {
                 ResultSet rs = ps.executeQuery()
         ) {
             if (rs.next()) {
-                return new Organization(
-                        rs.getString("org_name"),
-                        rs.getString("region"),
-                        rs.getString("address")
+                return new Item(
+                        rs.getString("item_name"),
+                        ItemType.valueOf(rs.getString("item_type"))
                 );
             }
             return null;
@@ -61,13 +57,17 @@ public class OrgDAO {
         }
     }
 
-    public static void add(Organization org) throws DAOException {
+    public static boolean has(Item item) throws DAOException {
+        return getByKey(item.getName()) != null;
+    }
 
-        String stmnt = "INSERT INTO organizations (org_name, address, region) " +
-                "VALUES ('" + org.getName() + "', '" + org.getAddress() + "', '" + org.getRegion() + "')";
+    public static void add(Item item) throws DAOException {
+
+        String stmnt = "INSERT INTO items (item_name, item_type) " +
+                "VALUES ('" + item.getName() + "', '" + item.getType().name() + "')";
 
         if (executeUpdate(stmnt) == 0) {
-            throw new DAOException("Проблемы при добавлении организации");
+            throw new DAOException("Проблемы при добавлении ТМЦ в общий реестр");
         }
     }
 
@@ -82,5 +82,4 @@ public class OrgDAO {
             throw new DAOException(e.getMessage());
         }
     }
-
 }

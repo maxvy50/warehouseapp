@@ -3,24 +3,29 @@ package edu.dartit.warehouseapp.web;
 import edu.dartit.warehouseapp.entities.*;
 import edu.dartit.warehouseapp.entities.enums.ActionType;
 import edu.dartit.warehouseapp.utils.ThymePage;
-import edu.dartit.warehouseapp.dao.*;
+import edu.dartit.warehouseapp.dao.ActionDAO;
+import edu.dartit.warehouseapp.dao.DAOException;
+import edu.dartit.warehouseapp.dao.ItemDAO;
+import edu.dartit.warehouseapp.dao.OrgDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 import static edu.dartit.warehouseapp.utils.JsonSender.sendJson;
 
 /**
- * Created by vysokov-mg on 21.06.2018.
+ * Created by vysokov-mg on 25.06.2018.
  */
-public class SellItemServlet extends HttpServlet {
+public class ReplaceItemServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String orgName = request.getParameter("orgName");
+        String supplierName = request.getParameter("supplierName");
+        String consumerName = request.getParameter("consumerName");
         String itemName = request.getParameter("itemName");
         int amount = Integer.parseInt(request.getParameter("itemAmount"));
         User user = new User(
@@ -28,19 +33,21 @@ public class SellItemServlet extends HttpServlet {
         );
 
         try {
-            Organization org = OrgDAO.getByKey(orgName);
+            Organization supplier = OrgDAO.getByKey(supplierName);
+            Organization consumer = OrgDAO.getByKey(consumerName);
             Item item = ItemDAO.getByKey(itemName);
             if (item != null) {
                 Action action = new Action()
-                        .setType(ActionType.sell_item)
+                        .setType(ActionType.move_item)
                         .setUser(user)
-                        .setSupplier(org)
+                        .setSupplier(supplier)
+                        .setConsumer(consumer)
                         .setItem(item)
                         .setAmount(amount);
 
-                org.sell(item, amount);
+                supplier.replace(consumer, item, amount);
                 ActionDAO.add(action);
-                sendJson(org.getItemJournal(), response);
+                sendJson(supplier.getItemJournal(), consumer.getItemJournal(), response);
             } else {
                 throw new DAOException("Указанного наименования нет в базе данных ни одного склада");
             }
@@ -55,7 +62,7 @@ public class SellItemServlet extends HttpServlet {
             new ThymePage(request, response)
                     .addVariable("username", (String) request.getSession().getAttribute("username"))
                     .addVariable("orgsList", OrgDAO.getAll())
-                    .process("sellItem");
+                    .process("replaceItem");
         } catch (DAOException e) {
             throw new ServletException(e.getMessage());
         }
