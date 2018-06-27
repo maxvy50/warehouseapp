@@ -18,15 +18,21 @@ import static edu.dartit.warehouseapp.utils.JsonSender.sendJson;
  * Created by vysokov-mg on 26.06.2018.
  */
 
-public class GetItemsServlet extends HttpServlet {
+public class UpdateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String orgName = request.getParameter("orgName");
+        String whatToSend = request.getParameter("whatToSend");
         try {
-            sendJson(OrgsHasItemsDAO.getItemsFor(OrgDAO.getByKey(orgName)), response);
+            if (whatToSend.equals("organization")) {
+                sendJson(OrgDAO.getByKey(orgName), response);
+            }
+            if (whatToSend.equals("itemJournal")) {
+                sendJson(OrgsHasItemsDAO.getItemsFor(OrgDAO.getByKey(orgName)), response);
+            }
         } catch (DAOException e) {
             throw new ServletException(e.getMessage());
         }

@@ -34,7 +34,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="/organizations-add">Добавить</a></li>
-                    <li><a>Редактировать</a></li>
+                    <li><a href="/organizations-edit">Редактировать</a></li>
                 </ul>
             </li>
             <!--th:classappend="(${pageName}=='Reports')? 'active'"-->
@@ -58,8 +58,8 @@
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a>
-                <span class="glyphicon glyphicon-user"></span>
+            <li><a href="/logout">
+                <span class="glyphicon glyphicon-log-out"></span>
                 <span  th:text="${username}">Кабинет</span>
             </a></li>
         </ul>

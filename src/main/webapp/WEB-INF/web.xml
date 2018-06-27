@@ -94,21 +94,11 @@
 
 
     <servlet>
-        <servlet-name>ProfileServlet</servlet-name>
-        <servlet-class>edu.dartit.warehouseapp.web.ProfileServlet</servlet-class>
+        <servlet-name>UpdateServlet</servlet-name>
+        <servlet-class>edu.dartit.warehouseapp.web.UpdateServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ProfileServlet</servlet-name>
-        <url-pattern>/profile</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
-        <servlet-name>GetItemsServlet</servlet-name>
-        <servlet-class>edu.dartit.warehouseapp.web.GetItemsServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GetItemsServlet</servlet-name>
+        <servlet-name>UpdateServlet</servlet-name>
         <url-pattern>/update</url-pattern>
     </servlet-mapping>
 

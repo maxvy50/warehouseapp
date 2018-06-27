@@ -41,7 +41,8 @@ public class WhaSessionFilter implements Filter {
                 return false;
             }
         } else {
-            if (session == null) {
+            if (session == null || "/logout".equals(uri)) {
+                request.getSession().invalidate();
                 goAuthorize(request, response);
                 return false;
             }

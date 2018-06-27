@@ -1,51 +1,45 @@
 package edu.dartit.warehouseapp.web;
 
-import edu.dartit.warehouseapp.entities.Organization;
-import edu.dartit.warehouseapp.utils.ThymePage;
 import edu.dartit.warehouseapp.dao.DAOException;
 import edu.dartit.warehouseapp.dao.OrgDAO;
+import edu.dartit.warehouseapp.entities.Organization;
+import edu.dartit.warehouseapp.utils.ThymePage;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static edu.dartit.warehouseapp.utils.JsonSender.sendJson;
-
 /**
  * Created by vysokov-mg on 19.06.2018.
  */
 
-public class AddOrgServlet extends HttpServlet {
-
-    @Override
+public class EditOrgServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String orgName = request.getParameter("orgName");
         String region = request.getParameter("orgRegion");
         String address = request.getParameter("orgAddress");
 
+        Organization org = new Organization(orgName, region, address);
+
         try {
-            OrgDAO.add(new Organization(orgName, region, address));
-            sendJson(OrgDAO.getAll(), response);
-        }
-        catch (DAOException e) {
+            OrgDAO.edit(org);
+        } catch (DAOException e) {
             throw new ServletException(e.getMessage());
         }
     }
 
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        OrgDAO orgDAO = new OrgDAO();
         try {
             new ThymePage(request, response)
                     .addVariable("orgsList", OrgDAO.getAll())
                     .addVariable("username", (String) request.getSession(false).getAttribute("username"))
-                    .process("addOrg");
+                    .process("editOrg");
         } catch (DAOException e) {
             throw new ServletException(e.getMessage());
         }
+
     }
 }

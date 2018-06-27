@@ -86,11 +86,7 @@
                         </tr>
                         </thead>
                         <tbody id="tableBody">
-                        <tr th:each="o : ${ohiList}">
-                            <td th:text="${o.getOrg()}"></td>
-                            <td th:text="${o.getItem()}"></td>
-                            <td th:text="${o.getAmount()}"></td>
-                        </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -99,7 +95,7 @@
     </div>
 </div>
 
-<!--<script src="../scripts/entire.js" th:src="@{/scripts/entire.js}"></script>-->
+<script src="../scripts/entire.js" th:src="@{/scripts/entire.js}"></script>
 <script src="../scripts/addItem.js" th:src="@{/scripts/addItem.js}"></script>
 
 

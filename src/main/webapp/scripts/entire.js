@@ -72,3 +72,25 @@ var prepareActionRow = function (record) {
     tr += "<td>" + record.user + "</td>";
     return tr;
 };
+
+
+var update = function () {
+    $("#orgName").on("change", function () {
+        $.ajax(
+            {
+                method: "POST",
+                url: "/update",
+                data: {
+                    orgName: $(this).find("option:selected").val(),
+                    whatToSend: "itemJournal"
+                },
+                beforeSend: function (request) {
+                    request.setRequestHeader("isAJAX", "yep");
+                },
+                success: function (data) {
+                    console.log(data);
+                    fillTable("tableBody", data);
+                }
+            })
+    });
+}

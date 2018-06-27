@@ -17,13 +17,16 @@ var restrictSelectAndUpdateTable = function (one/*update one*/, another/*restric
         $(another).find("option[value!=\"dontTouchMe\"]").each(function () {
             $(this).removeAttr("disabled")
         });
-        /*it updates corresponding to 'one' table with available items*/
+        /*it updates table corresponding to 'one' with available items*/
         $(another).find("option[value=\"" + opt + "\"]").attr("disabled", "disabled");
         $.ajax(
             {
                 method: "POST",
                 url: "/update",
-                data: {orgName: $(this).find("option:selected").val()},
+                data: {
+                    orgName: $(this).find("option:selected").val(),
+                    whatToSend: "itemJournal"
+                },
                 beforeSend: function (request) {
                     request.setRequestHeader("isAJAX", "yep");
                 },

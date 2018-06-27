@@ -3,6 +3,8 @@
  */
 "use strict";
 
+update();
+
 ajaxPost("#actionForm", {
     200/*SC_OK*/: function (data) {
         //$("#actionForm").find("div.statusDiv").html("Успех");

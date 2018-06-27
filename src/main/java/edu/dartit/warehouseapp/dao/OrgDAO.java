@@ -70,6 +70,17 @@ public class OrgDAO {
         }
     }
 
+    public static void edit(Organization org) throws DAOException {
+        String stmnt = "UPDATE organizations " +
+                "SET address='" + org.getAddress() +
+                "', region='" + org.getRegion() +
+                "' WHERE org_name='" + org.getName() + "';";
+
+        if (executeUpdate(stmnt) == 0) {
+            throw new DAOException("Что-то о5 пошло не так в OrgDAO");
+        }
+    }
+
     private static int executeUpdate(String stmnt) throws DAOException {
 
         try (

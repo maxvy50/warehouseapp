@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      lang="ru">
+
+<head>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../scripts/sessions.js" th:src="@{/scripts/sessions.js}"></script>
+    <!-- Bootstrap CSS  -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Bootstrap optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../css/styles.css" th:href="@{/css/styles.css}"/>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title>Добавить организацию</title>
+
+</head>
+
+
+<body>
+
+<div id="navigationDiv" th:replace="~{fragments :: navigationBar(${username})}"></div>
+
+<div class="container-fluid panel panel-default" style="margin-bottom: 1%; padding-bottom: 0.5%">
+    <h2>Редактирование организации</h2>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form id="actionForm" class="panel panel-primary">
+                <div class="statusDiv"></div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="orgName">Выберите организацию для редактирования:</label>
+                        <select class="form-control" id="orgName" name="orgName" required>
+                            <option selected disabled>-организация-</option>
+                            <option th:each="o : ${orgsList}" th:value="${o}" th:text="${o}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="orgRegion">Регион:</label>
+                        <input class="form-control" type="text" id="orgRegion" name="orgRegion" placeholder="регион"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label for="orgAddress">Адрес:</label>
+                        <input class="form-control" type="text" id="orgAddress" name="orgAddress" placeholder="адрес"
+                               required>
+                    </div>
+                    <div class="btn-group btn-group-lg" style="float: right">
+                        <input class="btn btn-danger" type="submit" value="Сохранить">
+                        <input class="btn btn-default" type="reset" value="Сброс">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+<script src="../scripts/entire.js" th:src="@{/scripts/entire.js}"></script>
+<script src="../scripts/editOrg.js" th:src="@{/scripts/editOrg.js}"></script>
+
+
+</body>
+</html>
